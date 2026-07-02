@@ -10,9 +10,9 @@
   --color-accent-dark: #00a891;
   --color-red-600: #DC2626;
 
-  --font-heading: var(--font-playfair);
-  --font-body: var(--font-inter);
-  --font-label: var(--font-dm-sans);
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
+  --font-label: var(--font-body);
 }
 
 html {
@@ -22,15 +22,15 @@ html {
 body {
   background: var(--color-bg);
   color: var(--color-dark);
-  font-family: var(--font-body), system-ui, sans-serif;
+  font-family: var(--font-body);
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading), Georgia, serif;
+  font-family: var(--font-heading);
 }
 
 .font-label {
-  font-family: var(--font-label), system-ui, sans-serif;
+  font-family: var(--font-label);
 }
 
 /* Datepicker overrides */
