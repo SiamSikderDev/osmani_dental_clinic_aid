@@ -60,6 +60,21 @@ export interface SiteSettings {
     category: string;
     questions: { q: string; a: string }[];
   }[];
+  about: {
+    heroSubtitle: string;
+    storyTitle: string;
+    storyParagraph1: string;
+    storyParagraph2: string;
+    mission: string;
+    vision: string;
+    values: string;
+    timeline: {
+      year: string;
+      title: string;
+      desc: string;
+    }[];
+    certifications: string[];
+  };
 }
 
 export const defaultSettings: SiteSettings = {
@@ -238,4 +253,26 @@ export const defaultSettings: SiteSettings = {
       ],
     },
   ],
+  about: {
+    heroSubtitle: 'For over 15 years, DentaCare has been a trusted name in dental health, combining cutting-edge technology with compassionate care.',
+    storyTitle: 'A Legacy of Exceptional Care',
+    storyParagraph1: 'DentaCare was founded in 2009 with a simple mission: to provide world-class dental care in a warm, welcoming environment. What started as a small practice has grown into one of the most trusted dental clinics in the region.',
+    storyParagraph2: 'Our philosophy is built on the belief that everyone deserves a healthy, beautiful smile. We combine the latest technology with gentle, personalized care to ensure every patient leaves our clinic with confidence.',
+    mission: 'To provide compassionate, high-quality dental care that empowers our patients to achieve optimal oral health and beautiful smiles.',
+    vision: 'To be the leading dental care provider, recognized for clinical excellence, innovative technology, and exceptional patient experience.',
+    values: 'Integrity, compassion, excellence, and innovation guide everything we do. We treat every patient like family.',
+    timeline: [
+      { year: '2009', title: 'Founded', desc: 'DentaCare opened its doors with a vision for patient-first dental care.' },
+      { year: '2013', title: 'Expansion', desc: 'Expanded to a state-of-the-art facility with 8 treatment rooms.' },
+      { year: '2017', title: 'Technology Upgrade', desc: 'Introduced 3D imaging, laser dentistry, and digital impressions.' },
+      { year: '2020', title: 'Award Winning', desc: 'Named "Best Dental Clinic" by the City Health Awards.' },
+      { year: '2024', title: 'Growth', desc: 'Reached 2000+ patients and expanded our specialist team to 10 doctors.' },
+    ],
+    certifications: [
+      'American Dental Association (ADA)',
+      'Accreditation Association for Ambulatory Health Care',
+      'International Congress of Oral Implantologists',
+      'Board Certified Specialists',
+    ]
+  }
 };

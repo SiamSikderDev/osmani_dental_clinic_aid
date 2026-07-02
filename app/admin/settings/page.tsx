@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Save, Plus, Trash2, Users, Phone, MapPin, Image, Settings as SettingsIcon,
   Loader2, CheckCircle, Stethoscope, Sparkles, Smile, Cross, Heart, Baby, Upload,
-  MessageSquare, Star, Home, LayoutDashboard, Shield, Globe, HelpCircle,
+  MessageSquare, Star, Home, LayoutDashboard, Shield, Globe, HelpCircle, Info,
 } from 'lucide-react';
 import { SiteSettings, defaultSettings } from '@/lib/settings';
 
@@ -20,6 +20,7 @@ const iconOptions = [
 
 const tabs = [
   { id: 'hero', label: 'Hero', icon: Image },
+  { id: 'about', label: 'About', icon: Info },
   { id: 'images', label: 'Images', icon: Upload },
   { id: 'testimonials', label: 'Testimonials', icon: MessageSquare },
   { id: 'doctors', label: 'Doctors', icon: Users },
@@ -163,6 +164,70 @@ export default function SettingsPage() {
     }));
   };
 
+  // Timeline helpers
+  const addTimelineNode = () => {
+    setSettings((prev) => ({
+      ...prev,
+      about: {
+        ...prev.about,
+        timeline: [
+          ...(prev.about?.timeline || []),
+          { year: '', title: '', desc: '' },
+        ],
+      },
+    }));
+  };
+  const removeTimelineNode = (index: number) => {
+    setSettings((prev) => ({
+      ...prev,
+      about: {
+        ...prev.about,
+        timeline: (prev.about?.timeline || []).filter((_, i) => i !== index),
+      },
+    }));
+  };
+  const updateTimelineNode = (index: number, field: string, value: string) => {
+    setSettings((prev) => ({
+      ...prev,
+      about: {
+        ...prev.about,
+        timeline: (prev.about?.timeline || []).map((t, i) => (i === index ? { ...t, [field]: value } : t)),
+      },
+    }));
+  };
+
+  // Certification helpers
+  const addCertification = () => {
+    setSettings((prev) => ({
+      ...prev,
+      about: {
+        ...prev.about,
+        certifications: [
+          ...(prev.about?.certifications || []),
+          '',
+        ],
+      },
+    }));
+  };
+  const removeCertification = (index: number) => {
+    setSettings((prev) => ({
+      ...prev,
+      about: {
+        ...prev.about,
+        certifications: (prev.about?.certifications || []).filter((_, i) => i !== index),
+      },
+    }));
+  };
+  const updateCertification = (index: number, value: string) => {
+    setSettings((prev) => ({
+      ...prev,
+      about: {
+        ...prev.about,
+        certifications: (prev.about?.certifications || []).map((c, i) => (i === index ? value : c)),
+      },
+    }));
+  };
+
   // Image upload helper
   const [uploading, setUploading] = useState<string | null>(null);
   const uploadImage = async (file: File, targetPath: string) => {
@@ -284,6 +349,96 @@ export default function SettingsPage() {
               <div>
                 <label className={label}>CTA Button Text</label>
                 <input className={input} value={settings.hero.ctaText} onChange={(e) => update('hero.ctaText', e.target.value)} />
+              </div>
+            </motion.div>
+          )}
+
+          {/* About Tab */}
+          {activeTab === 'about' && (
+            <motion.div key="about" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-6">
+              {/* General About info */}
+              <div className="bg-white rounded-2xl p-6 shadow-sm space-y-5">
+                <h3 className="font-bold text-dark font-heading">About Story & Values</h3>
+                <div>
+                  <label className={label}>Hero Subtitle</label>
+                  <textarea className={`${input} resize-none`} rows={2} value={settings.about?.heroSubtitle || ''} onChange={(e) => update('about.heroSubtitle', e.target.value)} />
+                </div>
+                <div className="grid grid-cols-1 gap-4">
+                  <div>
+                    <label className={label}>Story Section Title</label>
+                    <input className={input} value={settings.about?.storyTitle || ''} onChange={(e) => update('about.storyTitle', e.target.value)} />
+                  </div>
+                  <div>
+                    <label className={label}>Story Paragraph 1</label>
+                    <textarea className={`${input} resize-none`} rows={3} value={settings.about?.storyParagraph1 || ''} onChange={(e) => update('about.storyParagraph1', e.target.value)} />
+                  </div>
+                  <div>
+                    <label className={label}>Story Paragraph 2</label>
+                    <textarea className={`${input} resize-none`} rows={3} value={settings.about?.storyParagraph2 || ''} onChange={(e) => update('about.storyParagraph2', e.target.value)} />
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <label className={label}>Our Mission</label>
+                    <textarea className={`${input} resize-none`} rows={3} value={settings.about?.mission || ''} onChange={(e) => update('about.mission', e.target.value)} />
+                  </div>
+                  <div>
+                    <label className={label}>Our Vision</label>
+                    <textarea className={`${input} resize-none`} rows={3} value={settings.about?.vision || ''} onChange={(e) => update('about.vision', e.target.value)} />
+                  </div>
+                  <div>
+                    <label className={label}>Our Values</label>
+                    <textarea className={`${input} resize-none`} rows={3} value={settings.about?.values || ''} onChange={(e) => update('about.values', e.target.value)} />
+                  </div>
+                </div>
+              </div>
+
+              {/* Timeline Info */}
+              <div className="bg-white rounded-2xl p-6 shadow-sm space-y-5">
+                <h3 className="font-bold text-dark font-heading">Our Journey Timeline</h3>
+                <div className="space-y-4">
+                  {(settings.about?.timeline || []).map((t, idx) => (
+                    <div key={idx} className="bg-bg rounded-xl p-4 border border-card">
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-xs font-bold text-primary font-label">Timeline Event {idx + 1}</span>
+                        <button onClick={() => removeTimelineNode(idx)} className="text-red-400 hover:text-red-600 p-1"><Trash2 size={14} /></button>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div>
+                          <label className={label}>Year</label>
+                          <input className={input} value={t.year} onChange={(e) => updateTimelineNode(idx, 'year', e.target.value)} placeholder="e.g. 2024" />
+                        </div>
+                        <div className="md:col-span-3">
+                          <label className={label}>Event Title</label>
+                          <input className={input} value={t.title} onChange={(e) => updateTimelineNode(idx, 'title', e.target.value)} placeholder="Event Title" />
+                        </div>
+                        <div className="md:col-span-4">
+                          <label className={label}>Description</label>
+                          <textarea className={`${input} resize-none`} rows={2} value={t.desc} onChange={(e) => updateTimelineNode(idx, 'desc', e.target.value)} placeholder="Event description" />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  <button onClick={addTimelineNode} className="flex items-center gap-1.5 text-primary text-xs font-semibold hover:text-primary-dark transition-colors font-label px-3 py-1.5 border border-dashed border-gray-200 rounded-lg w-full justify-center">
+                    <Plus size={12} /> Add Timeline Event
+                  </button>
+                </div>
+              </div>
+
+              {/* Certifications Info */}
+              <div className="bg-white rounded-2xl p-6 shadow-sm space-y-5">
+                <h3 className="font-bold text-dark font-heading">Certifications & Affiliations</h3>
+                <div className="space-y-3">
+                  {(settings.about?.certifications || []).map((c, idx) => (
+                    <div key={idx} className="flex items-center gap-3">
+                      <input className={input} value={c} onChange={(e) => updateCertification(idx, e.target.value)} placeholder="e.g. American Dental Association (ADA)" />
+                      <button onClick={() => removeCertification(idx)} className="text-red-400 hover:text-red-600 p-1 shrink-0"><Trash2 size={16} /></button>
+                    </div>
+                  ))}
+                  <button onClick={addCertification} className="flex items-center gap-1.5 text-primary text-xs font-semibold hover:text-primary-dark transition-colors font-label px-3 py-1.5 border border-dashed border-gray-200 rounded-lg w-full justify-center">
+                    <Plus size={12} /> Add Certification/Affiliation
+                  </button>
+                </div>
               </div>
             </motion.div>
           )}
