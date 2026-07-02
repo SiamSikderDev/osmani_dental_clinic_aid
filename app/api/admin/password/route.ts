@@ -1,9 +1,9 @@
 import { cookies } from 'next/headers';
 import { jwtVerify } from 'jose';
+import { getSettings, updateSettings } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
 
-const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
 const COOKIE_NAME = 'admin_token';
 
 export async function PUT(request: Request) {
@@ -18,7 +18,11 @@ export async function PUT(request: Request) {
       return Response.json({ error: 'New password must be at least 6 characters' }, { status: 400 });
     }
 
-    // Verify JWT token
+    const JWT_SECRET = process.env.JWT_SECRET;
+    if (!JWT_SECRET) {
+      return Response.json({ error: 'Server not configured' }, { status: 500 });
+    }
+
     const cookieStore = await cookies();
     const token = cookieStore.get(COOKIE_NAME)?.value;
     if (!token) {
@@ -26,23 +30,23 @@ export async function PUT(request: Request) {
     }
 
     try {
-      await jwtVerify(token, JWT_SECRET);
+      const secret = new TextEncoder().encode(JWT_SECRET);
+      await jwtVerify(token, secret);
     } catch {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // Validate current password against environment variable
-    const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
-    if (!ADMIN_PASSWORD) {
-      return Response.json({ error: 'Server configuration error' }, { status: 500 });
-    }
+    // Validate current password against database
+    const settings = await getSettings();
+    const storedPassword = settings.adminPassword || process.env.ADMIN_PASSWORD;
 
-    if (currentPassword !== ADMIN_PASSWORD) {
+    if (!storedPassword || currentPassword !== storedPassword) {
       return Response.json({ error: 'Current password is incorrect' }, { status: 403 });
     }
 
-    // Note: In a production app, you'd update the ADMIN_PASSWORD in your environment
-    // or store it hashed in the database. For now, we acknowledge the change.
+    // Save new password to database
+    await updateSettings({ adminPassword: newPassword });
+
     return Response.json({ success: true });
   } catch (error) {
     console.error('Password update error:', error);

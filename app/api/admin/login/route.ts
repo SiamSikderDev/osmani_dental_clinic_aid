@@ -1,10 +1,9 @@
 import { SignJWT } from 'jose';
 import { cookies } from 'next/headers';
+import { getSettings } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
 
-const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 const COOKIE_NAME = 'admin_token';
 
 export async function POST(request: Request) {
@@ -15,25 +14,27 @@ export async function POST(request: Request) {
       return Response.json({ error: 'Password is required' }, { status: 400 });
     }
 
-    if (!ADMIN_PASSWORD) {
-      console.error('ADMIN_PASSWORD env variable is not set');
-      return Response.json({ error: 'Server configuration error' }, { status: 500 });
+    const JWT_SECRET = process.env.JWT_SECRET;
+    if (!JWT_SECRET) {
+      console.error('JWT_SECRET env variable is not set');
+      return Response.json({ error: 'Server not configured. Set JWT_SECRET in Vercel environment variables.' }, { status: 500 });
     }
 
-    if (password !== ADMIN_PASSWORD) {
+    // Check password against database first, then env var fallback
+    const settings = await getSettings();
+    const storedPassword = settings.adminPassword || process.env.ADMIN_PASSWORD;
+
+    if (!storedPassword || password !== storedPassword) {
       return Response.json({ error: 'Invalid password' }, { status: 401 });
     }
 
-    if (!JWT_SECRET || JWT_SECRET.length === 0) {
-      console.error('JWT_SECRET env variable is not set');
-      return Response.json({ error: 'Server configuration error' }, { status: 500 });
-    }
+    const secret = new TextEncoder().encode(JWT_SECRET);
 
     const token = await new SignJWT({ role: 'admin' })
       .setProtectedHeader({ alg: 'HS256' })
       .setIssuedAt()
       .setExpirationTime('24h')
-      .sign(JWT_SECRET);
+      .sign(secret);
 
     const cookieStore = await cookies();
     cookieStore.set(COOKIE_NAME, token, {
@@ -41,7 +42,7 @@ export async function POST(request: Request) {
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       path: '/',
-      maxAge: 60 * 60 * 24, // 24 hours
+      maxAge: 60 * 60 * 24,
     });
 
     return Response.json({ success: true });
