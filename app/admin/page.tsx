@@ -6,7 +6,7 @@ import {
   Calendar, Users, Clock, CheckCircle, XCircle,
   RefreshCw, Search, Filter, LogOut, Settings, ChevronDown, Home,
 } from 'lucide-react';
-import ScrollReveal from '@/components/ScrollReveal';
+import { useRouter } from 'next/navigation';
 
 interface Appointment {
   id: string;
@@ -36,13 +36,11 @@ const statusLabels: Record<string, string> = {
 };
 
 export default function AdminPage() {
+  const router = useRouter();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<string>('all');
   const [search, setSearch] = useState('');
-  const [authenticated, setAuthenticated] = useState(false);
-  const [password, setPassword] = useState('');
-  const [authError, setAuthError] = useState('');
 
   const fetchAppointments = useCallback(async () => {
     setLoading(true);
@@ -57,38 +55,11 @@ export default function AdminPage() {
     }
   }, []);
 
-  useEffect(() => {
-    if (authenticated) fetchAppointments();
-  }, [authenticated, fetchAppointments]);
+  useEffect(() => { fetchAppointments(); }, [fetchAppointments]);
 
-  useEffect(() => {
-    if (localStorage.getItem('dentacare_admin') === 'true') {
-      setAuthenticated(true);
-    }
-  }, []);
-
-  const handleAuth = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const res = await fetch('/api/settings');
-      const data = await res.json();
-      const storedPassword = data.adminPassword || 'dentacare2024';
-      if (password === storedPassword || password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
-        setAuthenticated(true);
-        setAuthError('');
-        localStorage.setItem('dentacare_admin', 'true');
-      } else {
-        setAuthError('Invalid password');
-      }
-    } catch {
-      if (password === 'dentacare2024' || password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
-        setAuthenticated(true);
-        setAuthError('');
-        localStorage.setItem('dentacare_admin', 'true');
-      } else {
-        setAuthError('Invalid password');
-      }
-    }
+  const handleLogout = async () => {
+    await fetch('/api/admin/logout', { method: 'POST' });
+    router.push('/admin/login');
   };
 
   const updateStatus = async (id: string, status: Appointment['status']) => {
@@ -119,45 +90,6 @@ export default function AdminPage() {
     return () => document.removeEventListener('mousedown', handleClick);
   }, [editingStatus]);
 
-  if (!authenticated) {
-    return (
-      <section className="min-h-screen flex items-center justify-center bg-bg">
-        <ScrollReveal>
-          <div className="bg-white rounded-3xl p-10 shadow-lg max-w-sm mx-4 w-full">
-            <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
-              <LogOut className="text-primary" size={24} />
-            </div>
-            <h1 className="text-2xl font-bold text-dark text-center mb-2 font-heading">
-              Admin Access
-            </h1>
-            <p className="text-dark/50 text-sm text-center mb-6 font-label">
-              Enter the admin password to continue
-            </p>
-            <form onSubmit={handleAuth} className="space-y-4">
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10"
-                placeholder="Password"
-                autoFocus
-              />
-              {authError && (
-                <p className="text-red-600 text-xs">{authError}</p>
-              )}
-              <button
-                type="submit"
-                className="w-full bg-primary text-white py-2.5 rounded-lg font-semibold text-sm hover:bg-primary-dark transition-colors font-label"
-              >
-                Sign In
-              </button>
-            </form>
-          </div>
-        </ScrollReveal>
-      </section>
-    );
-  }
-
   const filtered = appointments.filter((a) => {
     const matchesFilter = filter === 'all' || a.status === filter;
     const matchesSearch =
@@ -177,7 +109,6 @@ export default function AdminPage() {
 
   return (
     <section className="min-h-screen bg-bg">
-      {/* Header */}
       <div className="bg-white border-b border-card sticky top-0 z-30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
           <div>
@@ -202,10 +133,7 @@ export default function AdminPage() {
             </a>
             <span className="text-dark/20">|</span>
             <button
-              onClick={() => {
-                localStorage.removeItem('dentacare_admin');
-                setAuthenticated(false);
-              }}
+              onClick={handleLogout}
               className="flex items-center gap-2 text-dark/50 hover:text-dark text-sm transition-colors font-label"
             >
               <LogOut size={16} /> Lock
@@ -215,7 +143,6 @@ export default function AdminPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Stats */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {[
             { label: 'Total', value: stats.total, icon: Users, color: 'bg-primary/10 text-primary' },
@@ -243,7 +170,6 @@ export default function AdminPage() {
           ))}
         </div>
 
-        {/* Toolbar */}
         <div className="bg-white rounded-2xl shadow-sm p-4 mb-6 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
           <div className="relative w-full sm:w-72">
             <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-dark/30" />
@@ -280,7 +206,6 @@ export default function AdminPage() {
           </div>
         </div>
 
-        {/* Table */}
         <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
           {filtered.length === 0 ? (
             <div className="p-12 text-center">

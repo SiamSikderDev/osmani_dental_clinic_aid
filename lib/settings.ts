@@ -47,7 +47,7 @@ export interface SiteSettings {
     priceRange: string;
     icon: string;
   }[];
-  adminPassword: string;
+  adminPassword?: string;
   socialLinks: {
     facebook: string;
     instagram: string;
@@ -210,7 +210,6 @@ export const defaultSettings: SiteSettings = {
       icon: 'Baby',
     },
   ],
-  adminPassword: 'dentacare2024',
   socialLinks: {
     facebook: 'https://facebook.com/dentacare',
     instagram: 'https://instagram.com/dentacare',

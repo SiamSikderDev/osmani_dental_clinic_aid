@@ -5,9 +5,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Save, Plus, Trash2, Users, Phone, MapPin, Image, Settings as SettingsIcon,
   Loader2, CheckCircle, Stethoscope, Sparkles, Smile, Cross, Heart, Baby, Upload,
-  MessageSquare, Star, Home, LayoutDashboard, Shield, Globe, HelpCircle, Info,
+  MessageSquare, Star, Home, LayoutDashboard, Shield, Globe, HelpCircle, Info, LogOut,
 } from 'lucide-react';
 import { SiteSettings, defaultSettings } from '@/lib/settings';
+import { useRouter } from 'next/navigation';
 
 const iconOptions = [
   { value: 'Stethoscope', label: 'Stethoscope', Icon: Stethoscope },
@@ -33,51 +34,17 @@ const tabs = [
 ];
 
 export default function SettingsPage() {
+  const router = useRouter();
   const [settings, setSettings] = useState<SiteSettings>(defaultSettings);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [activeTab, setActiveTab] = useState('hero');
-  const [authenticated, setAuthenticated] = useState(false);
-  const [password, setPassword] = useState('');
-  const [authError, setAuthError] = useState('');
   const [currentPw, setCurrentPw] = useState('');
   const [newPw, setNewPw] = useState('');
   const [confirmPw, setConfirmPw] = useState('');
   const [pwLoading, setPwLoading] = useState(false);
   const [pwMsg, setPwMsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
-
-  useEffect(() => {
-    if (localStorage.getItem('dentacare_admin') === 'true') {
-      setAuthenticated(true);
-    } else {
-      setLoading(false);
-    }
-  }, []);
-
-  const handleAuth = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const res = await fetch('/api/settings');
-      const data = await res.json();
-      const storedPassword = data.adminPassword || 'dentacare2024';
-      if (password === storedPassword || password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
-        setAuthenticated(true);
-        setAuthError('');
-        localStorage.setItem('dentacare_admin', 'true');
-      } else {
-        setAuthError('Invalid password');
-      }
-    } catch {
-      if (password === 'dentacare2024' || password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
-        setAuthenticated(true);
-        setAuthError('');
-        localStorage.setItem('dentacare_admin', 'true');
-      } else {
-        setAuthError('Invalid password');
-      }
-    }
-  };
 
   const fetchSettings = useCallback(async () => {
     try {
@@ -245,39 +212,16 @@ export default function SettingsPage() {
     }
   };
 
+  const handleLogout = async () => {
+    await fetch('/api/admin/logout', { method: 'POST' });
+    router.push('/admin/login');
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-bg">
         <Loader2 className="animate-spin text-primary" size={32} />
       </div>
-    );
-  }
-
-  if (!authenticated) {
-    return (
-      <section className="min-h-screen flex items-center justify-center bg-bg">
-        <div className="bg-white rounded-3xl p-10 shadow-lg max-w-sm mx-4 w-full">
-          <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
-            <SettingsIcon className="text-primary" size={24} />
-          </div>
-          <h1 className="text-2xl font-bold text-dark text-center mb-2 font-heading">Admin Access</h1>
-          <p className="text-dark/50 text-sm text-center mb-6 font-label">Enter the admin password to continue</p>
-          <form onSubmit={handleAuth} className="space-y-4">
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10"
-              placeholder="Password"
-              autoFocus
-            />
-            {authError && <p className="text-red-600 text-xs">{authError}</p>}
-            <button type="submit" className="w-full bg-primary text-white py-2.5 rounded-lg font-semibold text-sm hover:bg-primary-dark transition-colors font-label">
-              Sign In
-            </button>
-          </form>
-        </div>
-      </section>
     );
   }
 
@@ -311,6 +255,13 @@ export default function SettingsPage() {
             >
               {saving ? <Loader2 size={14} className="animate-spin" /> : saved ? <CheckCircle size={14} /> : <Save size={14} />}
               {saving ? 'Saving...' : saved ? 'Saved!' : 'Save Changes'}
+            </button>
+            <span className="text-dark/20">|</span>
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-1.5 text-dark/50 hover:text-dark text-sm transition-colors font-label"
+            >
+              <LogOut size={14} /> Lock
             </button>
           </div>
         </div>
@@ -805,8 +756,6 @@ export default function SettingsPage() {
                     setCurrentPw('');
                     setNewPw('');
                     setConfirmPw('');
-                    setSettings(prev => ({ ...prev, adminPassword: newPw }));
-                    localStorage.setItem('dentacare_admin', 'true');
                   } else {
                     setPwMsg({ type: 'error', text: data.error || 'Failed to update password' });
                   }
