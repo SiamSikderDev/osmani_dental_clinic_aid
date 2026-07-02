@@ -1,0 +1,34 @@
+import type { Metadata } from "next";
+import { playfair, inter, dmSans } from "./fonts";
+import "./globals.css";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import EmergencyBanner from "@/components/EmergencyBanner";
+import WhatsAppButton from "@/components/WhatsAppButton";
+
+export const metadata: Metadata = {
+  title: "DentaCare — Your Healthiest Smile Starts Here",
+  description:
+    "Professional dental clinic offering general dentistry, teeth whitening, orthodontics, dental implants, root canal, and pediatric dentistry.",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html
+      lang="en"
+      className={`${playfair.variable} ${inter.variable} ${dmSans.variable} h-full antialiased`}
+    >
+      <body className="min-h-full flex flex-col">
+        <EmergencyBanner />
+        <Navbar />
+        <main className="flex-1 pt-0">{children}</main>
+        <Footer />
+        <WhatsAppButton />
+      </body>
+    </html>
+  );
+}
