@@ -397,21 +397,47 @@ export default function SettingsPage() {
           {/* Doctors Tab */}
           {activeTab === 'doctors' && (
             <motion.div key="doctors" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-4">
-              {settings.doctors.map((doc, i) => (
+              {settings.doctors.map((doc, i) => {
+                const uploadKey = `doctor-${doc.id}`;
+                return (
                 <div key={doc.id} className="bg-white rounded-2xl p-6 shadow-sm">
                   <div className="flex items-center justify-between mb-4">
                     <h4 className="font-bold text-dark font-heading">Doctor {i + 1}</h4>
                     <button onClick={() => removeDoctor(doc.id)} className="text-red-400 hover:text-red-600 p-1"><Trash2 size={16} /></button>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div><label className={label}>Name</label><input className={input} value={doc.name} onChange={(e) => updateDoctor(doc.id, 'name', e.target.value)} /></div>
-                    <div><label className={label}>Specialization</label><input className={input} value={doc.specialization} onChange={(e) => updateDoctor(doc.id, 'specialization', e.target.value)} /></div>
-                    <div><label className={label}>Credentials</label><input className={input} value={doc.credentials} onChange={(e) => updateDoctor(doc.id, 'credentials', e.target.value)} /></div>
-                    <div><label className={label}>Image Path</label><input className={input} value={doc.image} onChange={(e) => updateDoctor(doc.id, 'image', e.target.value)} /></div>
-                    <div className="md:col-span-2"><label className={label}>Bio</label><textarea className={`${input} resize-none`} rows={2} value={doc.bio} onChange={(e) => updateDoctor(doc.id, 'bio', e.target.value)} /></div>
+                  <div className="flex flex-col md:flex-row gap-6">
+                    <div className="shrink-0 flex flex-col items-center">
+                      <div className="w-32 h-32 rounded-xl overflow-hidden bg-card border border-card mb-3">
+                        {doc.image && <img src={doc.image} alt={doc.name || `Doctor ${i + 1}`} className="w-full h-full object-cover" />}
+                      </div>
+                      <label className={`inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-lg text-xs font-semibold cursor-pointer hover:bg-primary/20 transition-colors font-label w-full justify-center ${uploading === uploadKey ? 'opacity-50 pointer-events-none' : ''}`}>
+                        {uploading === uploadKey ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
+                        {uploading === uploadKey ? 'Uploading...' : 'Upload Photo'}
+                        <input type="file" accept="image/*" className="hidden" onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (!file) return;
+                          setUploading(uploadKey);
+                          try {
+                            const fd = new FormData();
+                            fd.append('file', file);
+                            const res = await fetch('/api/upload', { method: 'POST', body: fd });
+                            const data = await res.json();
+                            if (data.url) updateDoctor(doc.id, 'image', data.url);
+                          } catch { console.error('Upload failed'); } finally { setUploading(null); }
+                        }} />
+                      </label>
+                      <input className={`${input} mt-2 text-xs`} value={doc.image} onChange={(e) => updateDoctor(doc.id, 'image', e.target.value)} placeholder="/images/..." />
+                    </div>
+                    <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div><label className={label}>Name</label><input className={input} value={doc.name} onChange={(e) => updateDoctor(doc.id, 'name', e.target.value)} /></div>
+                      <div><label className={label}>Specialization</label><input className={input} value={doc.specialization} onChange={(e) => updateDoctor(doc.id, 'specialization', e.target.value)} /></div>
+                      <div><label className={label}>Credentials</label><input className={input} value={doc.credentials} onChange={(e) => updateDoctor(doc.id, 'credentials', e.target.value)} /></div>
+                      <div className="md:col-span-2"><label className={label}>Bio</label><textarea className={`${input} resize-none`} rows={2} value={doc.bio} onChange={(e) => updateDoctor(doc.id, 'bio', e.target.value)} /></div>
+                    </div>
                   </div>
                 </div>
-              ))}
+                );
+              })}
               <button onClick={addDoctor} className="flex items-center gap-2 bg-white border-2 border-dashed border-gray-300 rounded-2xl p-4 w-full justify-center text-dark/50 hover:border-primary hover:text-primary transition-colors font-label text-sm">
                 <Plus size={16} /> Add Doctor
               </button>

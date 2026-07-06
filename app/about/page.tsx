@@ -42,7 +42,7 @@ export default function AboutPage() {
               <div className="relative rounded-3xl overflow-hidden">
                 <Image
                   src={settings.images.clinicInterior}
-                  alt="DentaCare clinic"
+                  alt="Family Dentistry clinic"
                   width={600}
                   height={450}
                   className="object-cover w-full h-[450px]"

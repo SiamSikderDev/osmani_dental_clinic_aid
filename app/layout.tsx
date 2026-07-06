@@ -19,7 +19,7 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "DentaCare — Your Healthiest Smile Starts Here",
+  title: "Family Dentistry — Your Healthiest Smile Starts Here",
   description:
     "Professional dental clinic offering general dentistry, teeth whitening, orthodontics, dental implants, root canal, and pediatric dentistry.",
 };

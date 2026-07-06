@@ -1,13 +1,13 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
   Stethoscope, Sparkles, Smile, Cross, Heart, Baby,
-  CheckCircle, ArrowRight, Star, ChevronLeft, ChevronRight,
+  CheckCircle, ArrowRight, Star, ChevronLeft, ChevronRight, Quote,
 } from 'lucide-react';
-import { useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import ScrollReveal from '@/components/ScrollReveal';
 import CountUp from '@/components/CountUp';
 import { useSettings } from '@/lib/useSettings';
@@ -30,23 +30,33 @@ const features = [
 ];
 
 export default function HomePage() {
-  const carouselRef = useRef<HTMLDivElement>(null);
   const { settings } = useSettings();
   const { services, doctors } = settings;
+  const testimonials = settings.testimonials;
 
-  const scroll = (dir: 'left' | 'right') => {
-    if (carouselRef.current) {
-      carouselRef.current.scrollBy({
-        left: dir === 'left' ? -380 : 380,
-        behavior: 'smooth',
-      });
-    }
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [direction, setDirection] = useState(1);
+
+  const nextSlide = useCallback(() => {
+    setDirection(1);
+    setCurrentSlide((prev) => (prev + 1) % Math.max(testimonials.length, 1));
+  }, [testimonials.length]);
+
+  const prevSlide = () => {
+    setDirection(-1);
+    setCurrentSlide((prev) => (prev - 1 + testimonials.length) % Math.max(testimonials.length, 1));
   };
+
+  useEffect(() => {
+    if (testimonials.length <= 1) return;
+    const timer = setInterval(nextSlide, 5000);
+    return () => clearInterval(timer);
+  }, [nextSlide, testimonials.length]);
 
   return (
     <>
       {/* Hero */}
-      <section className="relative min-h-screen flex items-center bg-gradient-to-br from-bg via-white to-primary/5 overflow-hidden">
+      <section className="relative min-h-screen flex items-center bg-gradient-to-br from-bg via-white to-primary/10 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 lg:py-0 w-full">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div
@@ -315,57 +325,89 @@ export default function HomePage() {
               <h2 className="text-3xl sm:text-4xl font-bold text-dark mt-3 mb-4">
                 What Our Patients Say
               </h2>
+              <p className="text-dark/50 max-w-xl mx-auto text-sm font-label">
+                Real stories from real patients.{' '}
+                <Link href="/feedback" className="text-primary font-semibold hover:underline">
+                  Share your experience
+                </Link>
+              </p>
             </div>
           </ScrollReveal>
 
-          <div className="relative">
-            <div
-              ref={carouselRef}
-              className="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-4 scrollbar-hide"
-              style={{ scrollbarWidth: 'none' }}
-            >
-              {settings.testimonials.map((t, i) => (
-                <div
-                  key={i}
-                  className="min-w-[360px] bg-card rounded-2xl p-8 snap-start shrink-0"
-                >
-                  <div className="flex gap-1 mb-4">
-                    {Array.from({ length: t.rating }).map((_, j) => (
-                      <Star key={j} size={16} className="fill-yellow-400 text-yellow-400" />
-                    ))}
-                  </div>
-                  <p className="text-dark/70 leading-relaxed mb-6 italic">
-                    &ldquo;{t.text}&rdquo;
-                  </p>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full overflow-hidden relative">
-                      <Image
-                        src={t.image}
-                        alt={t.name}
-                        fill
-                        className="object-cover"
-                      />
+          {testimonials.length > 0 ? (
+            <div className="relative max-w-3xl mx-auto">
+              <div className="relative h-[320px] sm:h-[280px]">
+                <AnimatePresence mode="wait" custom={direction}>
+                  <motion.div
+                    key={currentSlide}
+                    custom={direction}
+                    initial={{ opacity: 0, x: direction * 80 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: direction * -80 }}
+                    transition={{ duration: 0.45, ease: [0.4, 0, 0.2, 1] }}
+                    className="absolute inset-0"
+                  >
+                    <div className="bg-card rounded-3xl p-8 sm:p-10 h-full flex flex-col justify-between relative">
+                      <Quote className="absolute top-6 right-8 text-primary/10" size={48} />
+                      <div>
+                        <div className="flex gap-1 mb-4">
+                          {Array.from({ length: testimonials[currentSlide].rating }).map((_, j) => (
+                            <Star key={j} size={16} className="fill-yellow-400 text-yellow-400" />
+                          ))}
+                        </div>
+                        <p className="text-dark/70 leading-relaxed italic text-lg">
+                          &ldquo;{testimonials[currentSlide].text}&rdquo;
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-3 mt-6">
+                        <div className="w-11 h-11 rounded-full overflow-hidden relative ring-2 ring-primary/20">
+                          <Image
+                            src={testimonials[currentSlide].image}
+                            alt={testimonials[currentSlide].name}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                        <div>
+                          <p className="font-semibold text-dark text-sm font-label">{testimonials[currentSlide].name}</p>
+                          <p className="text-dark/40 text-xs font-label">Verified Patient</p>
+                        </div>
+                      </div>
                     </div>
-                    <p className="font-semibold text-dark text-sm font-label">{t.name}</p>
-                  </div>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+
+              {/* Controls */}
+              <div className="flex items-center justify-center gap-4 mt-8">
+                <button
+                  onClick={prevSlide}
+                  className="w-10 h-10 rounded-full border border-dark/20 flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-colors"
+                >
+                  <ChevronLeft size={18} />
+                </button>
+                <div className="flex gap-2">
+                  {testimonials.map((_: unknown, i: number) => (
+                    <button
+                      key={i}
+                      onClick={() => { setDirection(i > currentSlide ? 1 : -1); setCurrentSlide(i); }}
+                      className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                        i === currentSlide ? 'bg-primary w-6' : 'bg-dark/20 hover:bg-dark/40'
+                      }`}
+                    />
+                  ))}
                 </div>
-              ))}
+                <button
+                  onClick={nextSlide}
+                  className="w-10 h-10 rounded-full border border-dark/20 flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-colors"
+                >
+                  <ChevronRight size={18} />
+                </button>
+              </div>
             </div>
-            <div className="flex justify-center gap-3 mt-6">
-              <button
-                onClick={() => scroll('left')}
-                className="w-10 h-10 rounded-full border border-dark/20 flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-colors"
-              >
-                <ChevronLeft size={18} />
-              </button>
-              <button
-                onClick={() => scroll('right')}
-                className="w-10 h-10 rounded-full border border-dark/20 flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-colors"
-              >
-                <ChevronRight size={18} />
-              </button>
-            </div>
-          </div>
+          ) : (
+            <p className="text-center text-dark/40 font-label">No testimonials yet.</p>
+          )}
         </div>
       </section>
 

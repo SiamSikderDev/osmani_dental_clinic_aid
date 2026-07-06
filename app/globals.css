@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-primary: #1A6BCC;
-  --color-accent: #00C2A8;
-  --color-bg: #F8FAFB;
-  --color-dark: #1C2B3A;
-  --color-card: #EDF2F7;
-  --color-primary-dark: #1456a3;
-  --color-accent-dark: #00a891;
+  --color-primary: #7B4F2A;
+  --color-accent: #5B3516;
+  --color-bg: #F3ECE3;
+  --color-dark: #3B2210;
+  --color-card: #EDE5D9;
+  --color-primary-dark: #633D1F;
+  --color-accent-dark: #4A2A10;
   --color-red-600: #DC2626;
 
   --font-heading: var(--font-heading);
@@ -51,7 +51,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .react-datepicker__input-container input:focus {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(26, 107, 204, 0.15);
+  box-shadow: 0 0 0 3px rgba(123, 79, 42, 0.15);
 }
 
 .react-datepicker {
