@@ -109,7 +109,7 @@ export default function AdminPage() {
 
   return (
     <section className="min-h-screen bg-bg">
-      <div className="bg-white border-b border-card sticky top-0 z-30">
+      <div className="bg-surface border-b border-card sticky top-0 z-30 transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
           <div>
             <h1 className="text-xl font-bold text-dark font-heading">
@@ -155,7 +155,7 @@ export default function AdminPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
-              className="bg-white rounded-2xl p-5 shadow-sm"
+              className="bg-surface rounded-2xl p-5 shadow-sm transition-colors"
             >
               <div className="flex items-center gap-3">
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${s.color}`}>
@@ -170,14 +170,14 @@ export default function AdminPage() {
           ))}
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm p-4 mb-6 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+        <div className="bg-surface rounded-2xl shadow-sm p-4 mb-6 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between transition-colors">
           <div className="relative w-full sm:w-72">
             <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-dark/30" />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-primary"
+              className="w-full pl-9 pr-4 py-2 border border-border rounded-lg text-sm focus:outline-none focus:border-primary bg-bg transition-colors"
               placeholder="Search name, email, phone..."
             />
           </div>
@@ -206,7 +206,7 @@ export default function AdminPage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+        <div className="bg-surface rounded-2xl shadow-sm overflow-hidden transition-colors">
           {filtered.length === 0 ? (
             <div className="p-12 text-center">
               <p className="text-dark/40 font-label">No appointments found</p>
@@ -278,7 +278,7 @@ export default function AdminPage() {
                               <ChevronDown size={12} />
                             </button>
                             {editingStatus === appt.id && (
-                              <div className="absolute top-full left-0 mt-1 bg-white rounded-xl shadow-lg border border-card z-20 py-1 min-w-[140px]">
+                              <div className="absolute top-full left-0 mt-1 bg-surface rounded-xl shadow-lg border border-card z-20 py-1 min-w-[140px] transition-colors">
                                 {(['pending', 'confirmed', 'completed', 'cancelled'] as const).map((s) => (
                                   <button
                                     key={s}

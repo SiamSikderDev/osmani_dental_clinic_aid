@@ -35,7 +35,7 @@ export default function AboutPage() {
       </section>
 
       {/* Story */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-surface">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <ScrollReveal>
@@ -75,7 +75,7 @@ export default function AboutPage() {
               { icon: Shield, title: 'Our Values', text: aboutSettings.values },
             ].map((item, i) => (
               <ScrollReveal key={i} delay={i * 0.15}>
-                <div className="bg-white rounded-2xl p-8 shadow-sm text-center h-full">
+                <div className="bg-surface rounded-2xl p-8 shadow-sm text-center h-full">
                   <div className="w-14 h-14 bg-accent/10 rounded-xl flex items-center justify-center mx-auto mb-5">
                     <item.icon className="text-accent" size={28} />
                   </div>
@@ -91,7 +91,7 @@ export default function AboutPage() {
       </section>
 
       {/* Team Grid */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-surface">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <div className="text-center mb-16">
@@ -161,7 +161,7 @@ export default function AboutPage() {
       </section>
 
       {/* Certifications */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-surface">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <h2 className="text-2xl font-bold text-dark text-center mb-10 font-heading">

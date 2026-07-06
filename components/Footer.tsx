@@ -40,7 +40,7 @@ export default function Footer() {
                   href={s.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent transition-colors"
+                  className="w-9 h-9 rounded-full bg-surface/10 flex items-center justify-center hover:bg-accent transition-colors"
                   aria-label={s.label}
                 >
                   <s.Icon size={14} />

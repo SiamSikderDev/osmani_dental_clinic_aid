@@ -40,7 +40,7 @@ export default function ServicesPage() {
       </section>
 
       {/* Services Detail */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-surface">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="space-y-6">
             {services.map((service, i) => {

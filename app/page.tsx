@@ -424,7 +424,7 @@ export default function HomePage() {
             </p>
             <Link
               href="/appointment"
-              className="bg-white text-primary px-10 py-4 rounded-full font-bold hover:bg-white/90 transition-colors inline-flex items-center gap-2 font-label"
+              className="bg-surface text-primary px-10 py-4 rounded-full font-bold hover:bg-surface/90 transition-colors inline-flex items-center gap-2 font-label"
             >
               Book Appointment <ArrowRight size={18} />
             </Link>

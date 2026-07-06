@@ -37,7 +37,7 @@ export default function AdminLoginPage() {
 
   return (
     <section className="min-h-screen flex items-center justify-center bg-bg">
-      <div className="bg-white rounded-3xl p-10 shadow-lg max-w-sm mx-4 w-full">
+      <div className="bg-surface rounded-3xl p-10 shadow-lg max-w-sm mx-4 w-full transition-colors">
         <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
           <SettingsIcon className="text-primary" size={24} />
         </div>
@@ -48,7 +48,7 @@ export default function AdminLoginPage() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10"
+            className="w-full px-4 py-2.5 border border-border rounded-lg text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 bg-surface transition-colors"
             placeholder="Password"
             autoFocus
             disabled={loading}

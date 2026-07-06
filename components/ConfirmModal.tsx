@@ -33,7 +33,7 @@ export default function ConfirmModal({ open, title, message, onConfirm, onCancel
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ type: 'spring', duration: 0.4, bounce: 0.2 }}
-            className="relative bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden"
+            className="relative bg-surface rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden"
           >
             <div className="p-6 text-center">
               <div className="w-12 h-12 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -42,14 +42,14 @@ export default function ConfirmModal({ open, title, message, onConfirm, onCancel
               <h3 className="text-lg font-bold text-dark font-heading mb-2">{title}</h3>
               <p className="text-dark/50 text-sm font-label">{message}</p>
             </div>
-            <div className="flex border-t border-gray-100">
+            <div className="flex border-t border-border">
               <button
                 onClick={onCancel}
-                className="flex-1 py-3 text-sm font-semibold text-dark/60 hover:text-dark hover:bg-gray-50 transition-colors font-label"
+                className="flex-1 py-3 text-sm font-semibold text-dark/60 hover:text-dark hover:bg-surface transition-colors font-label"
               >
                 Cancel
               </button>
-              <div className="w-px bg-gray-100" />
+              <div className="w-px bg-surface" />
               <button
                 onClick={onConfirm}
                 className="flex-1 py-3 text-sm font-semibold text-red-500 hover:bg-red-50 transition-colors font-label"

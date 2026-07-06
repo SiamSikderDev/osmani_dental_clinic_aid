@@ -23,7 +23,7 @@ function ThemeToggle({ className = '' }: { className?: string }) {
   return (
     <button
       onClick={toggle}
-      className={`p-2 rounded-full hover:bg-black/10 hover:bg-white/10 transition-colors ${className}`}
+      className={`p-2 rounded-full hover:bg-black/10 hover:bg-surface/10 transition-colors ${className}`}
       aria-label="Toggle theme"
     >
       {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}

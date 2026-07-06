@@ -36,8 +36,8 @@ export default function EmergencyBanner() {
                 {/* Left: pulsing dot */}
                 <div className="flex items-center gap-2.5">
                   <span className="relative flex h-2.5 w-2.5">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white/60" />
-                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white" />
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-surface/60" />
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-surface" />
                   </span>
                   <span className="text-white/70 text-xs font-medium tracking-wide uppercase font-label hidden sm:inline">
                     Emergency
@@ -51,7 +51,7 @@ export default function EmergencyBanner() {
                   </p>
                   <a
                     href="tel:+15551234567"
-                    className="inline-flex items-center gap-1.5 bg-white/15 hover:bg-white/25 backdrop-blur-sm text-white text-xs sm:text-sm font-bold px-3 py-1 rounded-full transition-all hover:scale-[1.03] active:scale-[0.98] font-label"
+                    className="inline-flex items-center gap-1.5 bg-surface/15 hover:bg-surface/25 backdrop-blur-sm text-white text-xs sm:text-sm font-bold px-3 py-1 rounded-full transition-all hover:scale-[1.03] active:scale-[0.98] font-label"
                   >
                     <Phone size={12} className="fill-white" />
                     +1 (555) 123-4567
@@ -61,7 +61,7 @@ export default function EmergencyBanner() {
                 {/* Right: close */}
                 <button
                   onClick={dismiss}
-                  className="text-white/50 hover:text-white transition-colors p-1 rounded-full hover:bg-white/10"
+                  className="text-white/50 hover:text-white transition-colors p-1 rounded-full hover:bg-surface/10"
                   aria-label="Dismiss"
                 >
                   <X size={14} />

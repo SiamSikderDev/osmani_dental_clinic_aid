@@ -43,7 +43,7 @@ export default function FAQPage() {
                   className={`px-6 py-2.5 rounded-full text-sm font-medium transition-colors font-label ${
                     activeCategory === cat.category
                       ? 'bg-accent text-white'
-                      : 'bg-white text-dark/60 hover:bg-primary/10 hover:text-primary border border-card'
+                      : 'bg-surface text-dark/60 hover:bg-primary/10 hover:text-primary border border-card'
                   }`}
                 >
                   {cat.category}
@@ -58,7 +58,7 @@ export default function FAQPage() {
               <ScrollReveal key={`${activeCategory}-${i}`} delay={i * 0.08}>
                 <motion.div
                   layout
-                  className="bg-white rounded-2xl overflow-hidden shadow-sm border border-card"
+                  className="bg-surface rounded-2xl overflow-hidden shadow-sm border border-card"
                 >
                   <button
                     onClick={() => setOpenQ(openQ === i ? null : i)}

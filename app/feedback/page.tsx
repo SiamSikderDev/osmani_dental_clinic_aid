@@ -97,7 +97,7 @@ export default function FeedbackPage() {
               key="success"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="bg-white rounded-3xl p-10 shadow-sm text-center"
+              className="bg-surface rounded-3xl p-10 shadow-sm text-center"
             >
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <CheckCircle className="text-green-600" size={32} />
@@ -120,7 +120,7 @@ export default function FeedbackPage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               onSubmit={handleSubmit}
-              className="bg-white rounded-3xl p-8 sm:p-10 shadow-sm space-y-6"
+              className="bg-surface rounded-3xl p-8 sm:p-10 shadow-sm space-y-6"
             >
               {/* Name */}
               <div>
@@ -132,7 +132,7 @@ export default function FeedbackPage() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="e.g. Sarah Johnson"
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all font-label"
+                  className="w-full px-4 py-3 rounded-xl border border-border text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all font-label"
                   required
                 />
               </div>
@@ -184,7 +184,7 @@ export default function FeedbackPage() {
                   onChange={(e) => setText(e.target.value)}
                   placeholder="Tell us about your experience at Family Dentistry..."
                   rows={4}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all resize-none font-label"
+                  className="w-full px-4 py-3 rounded-xl border border-border text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all resize-none font-label"
                   required
                 />
               </div>
@@ -200,7 +200,7 @@ export default function FeedbackPage() {
                       <Image src={imagePreview} alt="Preview" fill className="object-cover" />
                     </div>
                   ) : (
-                    <div className="w-16 h-16 rounded-xl bg-card border border-dashed border-gray-300 flex items-center justify-center">
+                    <div className="w-16 h-16 rounded-xl bg-card border border-dashed border-border flex items-center justify-center">
                       <span className="text-dark/20 text-xs font-label">Photo</span>
                     </div>
                   )}

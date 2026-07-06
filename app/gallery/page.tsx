@@ -41,7 +41,7 @@ export default function GalleryPage() {
       </section>
 
       {/* Filters */}
-      <section className="py-8 bg-white sticky top-20 z-30 border-b border-card">
+      <section className="py-8 bg-surface sticky top-20 z-30 border-b border-card">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center gap-3">
             {categories.map((cat) => (
@@ -88,7 +88,7 @@ export default function GalleryPage() {
       </section>
 
       {/* Before & After Slider */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-surface">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <h2 className="text-3xl font-bold text-dark text-center mb-10 font-heading">

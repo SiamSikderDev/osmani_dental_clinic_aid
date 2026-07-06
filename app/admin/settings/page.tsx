@@ -238,7 +238,7 @@ export default function SettingsPage() {
     );
   }
 
-  const input = 'w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10';
+  const input = 'w-full px-3 py-2 border border-border rounded-lg text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 bg-bg transition-colors';
   const label = 'block text-xs font-semibold text-dark/60 mb-1 font-label uppercase tracking-wider';
 
   return (
@@ -250,7 +250,7 @@ export default function SettingsPage() {
         onConfirm={() => { confirmAction(); setConfirmOpen(false); }}
         onCancel={() => setConfirmOpen(false)}
       />
-      <div className="bg-white border-b border-card sticky top-0 z-30">
+      <div className="bg-surface border-b border-card sticky top-0 z-30 transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <SettingsIcon className="text-primary" size={20} />
@@ -295,7 +295,7 @@ export default function SettingsPage() {
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors font-label ${
-                activeTab === tab.id ? 'bg-primary text-white' : 'bg-white text-dark/60 hover:bg-card border border-card'
+                activeTab === tab.id ? 'bg-primary text-white' : 'bg-surface text-dark/60 hover:bg-card border border-card'
               }`}
             >
               <tab.icon size={14} />
@@ -307,7 +307,7 @@ export default function SettingsPage() {
         <AnimatePresence mode="wait">
           {/* Hero Tab */}
           {activeTab === 'hero' && (
-            <motion.div key="hero" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="bg-white rounded-2xl p-6 shadow-sm space-y-5">
+            <motion.div key="hero" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="bg-surface rounded-2xl p-6 shadow-sm space-y-5 transition-colors">
               <h3 className="font-bold text-dark font-heading">Hero Section</h3>
               <div>
                 <label className={label}>Headline</label>
@@ -328,7 +328,7 @@ export default function SettingsPage() {
           {activeTab === 'about' && (
             <motion.div key="about" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-6">
               {/* General About info */}
-              <div className="bg-white rounded-2xl p-6 shadow-sm space-y-5">
+              <div className="bg-surface rounded-2xl p-6 shadow-sm space-y-5 transition-colors">
                 <h3 className="font-bold text-dark font-heading">About Story & Values</h3>
                 <div>
                   <label className={label}>Hero Subtitle</label>
@@ -365,7 +365,7 @@ export default function SettingsPage() {
               </div>
 
               {/* Timeline Info */}
-              <div className="bg-white rounded-2xl p-6 shadow-sm space-y-5">
+              <div className="bg-surface rounded-2xl p-6 shadow-sm space-y-5 transition-colors">
                 <h3 className="font-bold text-dark font-heading">Our Journey Timeline</h3>
                 <div className="space-y-4">
                   {(settings.about?.timeline || []).map((t, idx) => (
@@ -390,14 +390,14 @@ export default function SettingsPage() {
                       </div>
                     </div>
                   ))}
-                  <button onClick={addTimelineNode} className="flex items-center gap-1.5 text-primary text-xs font-semibold hover:text-primary-dark transition-colors font-label px-3 py-1.5 border border-dashed border-gray-200 rounded-lg w-full justify-center">
+                  <button onClick={addTimelineNode} className="flex items-center gap-1.5 text-primary text-xs font-semibold hover:text-primary-dark transition-colors font-label px-3 py-1.5 border border-dashed border-border rounded-lg w-full justify-center">
                     <Plus size={12} /> Add Timeline Event
                   </button>
                 </div>
               </div>
 
               {/* Certifications Info */}
-              <div className="bg-white rounded-2xl p-6 shadow-sm space-y-5">
+              <div className="bg-surface rounded-2xl p-6 shadow-sm space-y-5 transition-colors">
                 <h3 className="font-bold text-dark font-heading">Certifications & Affiliations</h3>
                 <div className="space-y-3">
                   {(settings.about?.certifications || []).map((c, idx) => (
@@ -406,7 +406,7 @@ export default function SettingsPage() {
                       <button onClick={() => requestConfirm('Remove Certification', 'Are you sure you want to remove this certification?', () => removeCertification(idx))} className="text-red-400 hover:text-red-600 p-1 shrink-0"><Trash2 size={16} /></button>
                     </div>
                   ))}
-                  <button onClick={addCertification} className="flex items-center gap-1.5 text-primary text-xs font-semibold hover:text-primary-dark transition-colors font-label px-3 py-1.5 border border-dashed border-gray-200 rounded-lg w-full justify-center">
+                  <button onClick={addCertification} className="flex items-center gap-1.5 text-primary text-xs font-semibold hover:text-primary-dark transition-colors font-label px-3 py-1.5 border border-dashed border-border rounded-lg w-full justify-center">
                     <Plus size={12} /> Add Certification/Affiliation
                   </button>
                 </div>
@@ -420,7 +420,7 @@ export default function SettingsPage() {
               {settings.doctors.map((doc, i) => {
                 const uploadKey = `doctor-${doc.id}`;
                 return (
-                <div key={doc.id} className="bg-white rounded-2xl p-6 shadow-sm">
+                <div key={doc.id} className="bg-surface rounded-2xl p-6 shadow-sm">
                   <div className="flex items-center justify-between mb-4">
                     <h4 className="font-bold text-dark font-heading">Doctor {i + 1}</h4>
                     <button onClick={() => requestConfirm('Remove Doctor', 'Are you sure you want to remove this doctor?', () => removeDoctor(doc.id))} className="text-red-400 hover:text-red-600 p-1"><Trash2 size={16} /></button>
@@ -458,7 +458,7 @@ export default function SettingsPage() {
                 </div>
                 );
               })}
-              <button onClick={addDoctor} className="flex items-center gap-2 bg-white border-2 border-dashed border-gray-300 rounded-2xl p-4 w-full justify-center text-dark/50 hover:border-primary hover:text-primary transition-colors font-label text-sm">
+              <button onClick={addDoctor} className="flex items-center gap-2 bg-surface border-2 border-dashed border-border rounded-2xl p-4 w-full justify-center text-dark/50 hover:border-primary hover:text-primary transition-colors font-label text-sm">
                 <Plus size={16} /> Add Doctor
               </button>
             </motion.div>
@@ -468,7 +468,7 @@ export default function SettingsPage() {
           {activeTab === 'services' && (
             <motion.div key="services" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-4">
               {settings.services.map((svc, i) => (
-                <div key={svc.id} className="bg-white rounded-2xl p-6 shadow-sm">
+                <div key={svc.id} className="bg-surface rounded-2xl p-6 shadow-sm">
                   <div className="flex items-center justify-between mb-4">
                     <h4 className="font-bold text-dark font-heading">Service {i + 1}</h4>
                     <button onClick={() => requestConfirm('Remove Service', 'Are you sure you want to remove this service?', () => removeService(svc.id))} className="text-red-400 hover:text-red-600 p-1"><Trash2 size={16} /></button>
@@ -487,7 +487,7 @@ export default function SettingsPage() {
                   </div>
                 </div>
               ))}
-              <button onClick={addService} className="flex items-center gap-2 bg-white border-2 border-dashed border-gray-300 rounded-2xl p-4 w-full justify-center text-dark/50 hover:border-primary hover:text-primary transition-colors font-label text-sm">
+              <button onClick={addService} className="flex items-center gap-2 bg-surface border-2 border-dashed border-border rounded-2xl p-4 w-full justify-center text-dark/50 hover:border-primary hover:text-primary transition-colors font-label text-sm">
                 <Plus size={16} /> Add Service
               </button>
             </motion.div>
@@ -505,7 +505,7 @@ export default function SettingsPage() {
               ] as const).map((item) => {
                 const currentValue = item.key.split('.').reduce((obj: Record<string, unknown>, k) => obj[k] as Record<string, unknown>, settings as unknown as Record<string, unknown>) as unknown as string;
                 return (
-                  <div key={item.key} className="bg-white rounded-2xl p-6 shadow-sm">
+                  <div key={item.key} className="bg-surface rounded-2xl p-6 shadow-sm">
                     <div className="flex items-start gap-6">
                       <div className="w-40 h-28 rounded-xl overflow-hidden bg-card border border-card shrink-0">
                         {currentValue && <img src={currentValue} alt={item.label} className="w-full h-full object-cover" />}
@@ -536,7 +536,7 @@ export default function SettingsPage() {
           {activeTab === 'testimonials' && (
             <motion.div key="testimonials" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-4">
               {settings.testimonials.map((test, i) => (
-                <div key={test.id} className="bg-white rounded-2xl p-6 shadow-sm">
+                <div key={test.id} className="bg-surface rounded-2xl p-6 shadow-sm">
                   <div className="flex items-center justify-between mb-5">
                     <div className="flex items-center gap-3">
                       <div className="w-12 h-12 rounded-xl overflow-hidden bg-card border border-card shrink-0">
@@ -624,7 +624,7 @@ export default function SettingsPage() {
                   ...prev,
                   testimonials: [...prev.testimonials, { id: `test-${Date.now()}`, name: '', rating: 5, image: '/images/patient-review-1.jpeg', text: '' }],
                 }));
-              }} className="flex items-center gap-2 bg-white border-2 border-dashed border-gray-300 rounded-2xl p-4 w-full justify-center text-dark/50 hover:border-primary hover:text-primary transition-colors font-label text-sm">
+              }} className="flex items-center gap-2 bg-surface border-2 border-dashed border-border rounded-2xl p-4 w-full justify-center text-dark/50 hover:border-primary hover:text-primary transition-colors font-label text-sm">
                 <Plus size={16} /> Add Testimonial
               </button>
             </motion.div>
@@ -633,7 +633,7 @@ export default function SettingsPage() {
           {/* Contact Tab */}
           {activeTab === 'contact' && (
             <motion.div key="contact" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-4">
-              <div className="bg-white rounded-2xl p-6 shadow-sm space-y-5">
+              <div className="bg-surface rounded-2xl p-6 shadow-sm space-y-5">
                 <h3 className="font-bold text-dark font-heading">Contact Information</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div><label className={label}>Phone Number</label><input className={input} value={settings.contact.phone} onChange={(e) => update('contact.phone', e.target.value)} /></div>
@@ -647,7 +647,7 @@ export default function SettingsPage() {
                 </div>
               </div>
 
-              <div className="bg-white rounded-2xl p-6 shadow-sm space-y-4">
+              <div className="bg-surface rounded-2xl p-6 shadow-sm space-y-4">
                 <div>
                   <h3 className="font-bold text-dark font-heading">Admin Notification Emails</h3>
                   <p className="text-dark/40 text-xs font-label mt-1">When a patient books an appointment, all listed admins will receive an email notification.</p>
@@ -692,7 +692,7 @@ export default function SettingsPage() {
 
           {/* Social Tab */}
           {activeTab === 'social' && (
-            <motion.div key="social" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="bg-white rounded-2xl p-6 shadow-sm space-y-5 max-w-lg">
+            <motion.div key="social" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="bg-surface rounded-2xl p-6 shadow-sm space-y-5 max-w-lg">
               <div>
                 <h3 className="font-bold text-dark font-heading">Social Media Links</h3>
                 <p className="text-dark/40 text-xs font-label mt-1">Links shown in the footer. Leave blank to hide a platform.</p>
@@ -724,10 +724,10 @@ export default function SettingsPage() {
           {activeTab === 'faq' && (
             <motion.div key="faq" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-4">
               {settings.faqCategories.map((cat, ci) => (
-                <div key={ci} className="bg-white rounded-2xl p-6 shadow-sm">
+                <div key={ci} className="bg-surface rounded-2xl p-6 shadow-sm">
                   <div className="flex items-center justify-between mb-4">
                     <input
-                      className="text-base font-bold text-dark font-heading bg-transparent border-b border-transparent hover:border-gray-300 focus:border-primary focus:outline-none transition-colors w-48"
+                      className="text-base font-bold text-dark font-heading bg-transparent border-b border-transparent hover:border-border focus:border-primary focus:outline-none transition-colors w-48"
                       value={cat.category}
                       onChange={(e) => {
                         const updated = [...settings.faqCategories];
@@ -794,7 +794,7 @@ export default function SettingsPage() {
                   ...prev,
                   faqCategories: [...prev.faqCategories, { category: 'New Category', questions: [{ q: '', a: '' }] }],
                 }));
-              }} className="flex items-center gap-2 bg-white border-2 border-dashed border-gray-300 rounded-2xl p-4 w-full justify-center text-dark/50 hover:border-primary hover:text-primary transition-colors font-label text-sm">
+              }} className="flex items-center gap-2 bg-surface border-2 border-dashed border-border rounded-2xl p-4 w-full justify-center text-dark/50 hover:border-primary hover:text-primary transition-colors font-label text-sm">
                 <Plus size={16} /> Add Category
               </button>
             </motion.div>
@@ -802,7 +802,7 @@ export default function SettingsPage() {
 
           {/* Map Tab */}
           {activeTab === 'map' && (
-            <motion.div key="map" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="bg-white rounded-2xl p-6 shadow-sm space-y-5">
+            <motion.div key="map" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="bg-surface rounded-2xl p-6 shadow-sm space-y-5">
               <h3 className="font-bold text-dark font-heading">Google Maps Embed</h3>
               <p className="text-dark/50 text-sm">Paste the Google Maps embed URL from Google Maps → Share → Embed → copy the src URL.</p>
               <div><label className={label}>Embed URL</label><textarea className={`${input} resize-none`} rows={3} value={settings.map.embedUrl} onChange={(e) => update('map.embedUrl', e.target.value)} /></div>
@@ -816,7 +816,7 @@ export default function SettingsPage() {
 
           {/* Security Tab */}
           {activeTab === 'security' && (
-            <motion.div key="security" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="bg-white rounded-2xl p-6 shadow-sm space-y-5 max-w-lg">
+            <motion.div key="security" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="bg-surface rounded-2xl p-6 shadow-sm space-y-5 max-w-lg">
               <div>
                 <h3 className="font-bold text-dark font-heading">Change Admin Password</h3>
                 <p className="text-dark/40 text-xs font-label mt-1">Used to access the admin dashboard and settings</p>

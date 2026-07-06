@@ -70,7 +70,7 @@ export default function AppointmentPage() {
     return (
       <section className="min-h-screen flex items-center justify-center bg-bg pt-20">
         <ScrollReveal>
-          <div className="bg-white rounded-3xl p-12 shadow-lg text-center max-w-md mx-4">
+          <div className="bg-surface rounded-3xl p-12 shadow-lg text-center max-w-md mx-4">
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
@@ -123,7 +123,7 @@ export default function AppointmentPage() {
                 <p className="text-red-600 text-sm">{sendError}</p>
               </div>
             )}
-            <div className="bg-white rounded-2xl shadow-sm p-8">
+            <div className="bg-surface rounded-2xl shadow-sm p-8">
               <AnimatePresence mode="wait">
                 {step === 1 && (
                   <motion.div
@@ -142,7 +142,7 @@ export default function AppointmentPage() {
                       </label>
                       <input
                         {...register('name', { required: 'Name is required' })}
-                        className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10"
+                        className="w-full px-4 py-2.5 border border-border rounded-lg text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10"
                         placeholder="John Doe"
                       />
                       {errors.name && (
@@ -155,7 +155,7 @@ export default function AppointmentPage() {
                       </label>
                       <input
                         {...register('phone', { required: 'Phone is required' })}
-                        className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10"
+                        className="w-full px-4 py-2.5 border border-border rounded-lg text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10"
                         placeholder="+1 (555) 123-4567"
                       />
                       {errors.phone && (
@@ -171,7 +171,7 @@ export default function AppointmentPage() {
                           required: 'Email is required',
                           pattern: { value: /^\S+@\S+$/i, message: 'Invalid email' },
                         })}
-                        className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10"
+                        className="w-full px-4 py-2.5 border border-border rounded-lg text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10"
                         placeholder="john@example.com"
                       />
                       {errors.email && (
@@ -198,7 +198,7 @@ export default function AppointmentPage() {
                       </label>
                       <select
                         {...register('service', { required: 'Please select a service' })}
-                        className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10"
+                        className="w-full px-4 py-2.5 border border-border rounded-lg text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10"
                       >
                         <option value="">Choose a service</option>
                         {services.map((s) => (
@@ -215,7 +215,7 @@ export default function AppointmentPage() {
                       </label>
                       <select
                         {...register('doctor')}
-                        className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10"
+                        className="w-full px-4 py-2.5 border border-border rounded-lg text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10"
                       >
                         <option value="">No preference</option>
                         {doctors.map((d) => (
@@ -232,7 +232,7 @@ export default function AppointmentPage() {
                         onChange={(date: Date | null) => setValue('date', date)}
                         minDate={new Date()}
                         dateFormat="MMMM d, yyyy"
-                        className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-primary"
+                        className="w-full px-4 py-2.5 border border-border rounded-lg text-sm focus:outline-none focus:border-primary"
                         placeholderText="Select a date"
                       />
                     </div>
@@ -249,7 +249,7 @@ export default function AppointmentPage() {
                             className={`px-3 py-2 rounded-lg text-xs font-medium border transition-colors font-label ${
                               selectedTime === slot
                                 ? 'bg-accent text-white border-accent'
-                                : 'bg-white text-dark border-gray-200 hover:border-accent'
+                                : 'bg-surface text-dark border-border hover:border-accent'
                             }`}
                           >
                             {slot}
