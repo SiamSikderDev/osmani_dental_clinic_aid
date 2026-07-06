@@ -56,7 +56,7 @@ export interface EmailData {
 }
 
 // Patient books → clinic gets notified (no email to patient yet)
-export async function sendBookingReceivedToClinic(data: EmailData) {
+export async function sendBookingReceivedToClinic(data: EmailData, adminEmails: string[] = []) {
   const html = `
     <p style="color:#3B2210;font-size:16px;margin:0 0 16px;">
       A new appointment request needs your review.
@@ -74,9 +74,12 @@ export async function sendBookingReceivedToClinic(data: EmailData) {
       <tr><td style="padding:8px 0;color:#64748B;font-size:13px;">Time</td><td style="padding:8px 0;color:#3B2210;font-size:14px;font-weight:600;text-align:right;">${data.time}</td></tr>
     </table>
   `;
+  const recipients = adminEmails.length > 0
+    ? adminEmails.join(', ')
+    : process.env.EMAIL_USER || '';
   return transporter.sendMail({
     from: `"Family Dentistry Bookings" <${process.env.EMAIL_USER}>`,
-    to: process.env.EMAIL_USER,
+    to: recipients,
     subject: `New Appointment Request: ${data.name} — ${data.date} ${data.time}`,
     html: emailShell('New Appointment Request', 'A patient is waiting for your approval', html),
   });

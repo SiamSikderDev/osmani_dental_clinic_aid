@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { SiteSettings, defaultSettings } from '@/lib/settings';
 import { useRouter } from 'next/navigation';
+import ConfirmModal from '@/components/ConfirmModal';
 
 const iconOptions = [
   { value: 'Stethoscope', label: 'Stethoscope', Icon: Stethoscope },
@@ -45,6 +46,18 @@ export default function SettingsPage() {
   const [confirmPw, setConfirmPw] = useState('');
   const [pwLoading, setPwLoading] = useState(false);
   const [pwMsg, setPwMsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [confirmTitle, setConfirmTitle] = useState('');
+  const [confirmMessage, setConfirmMessage] = useState('');
+  const [confirmAction, setConfirmAction] = useState<() => void>(() => {});
+
+  const requestConfirm = (title: string, message: string, action: () => void) => {
+    setConfirmTitle(title);
+    setConfirmMessage(message);
+    setConfirmAction(() => action);
+    setConfirmOpen(true);
+  };
 
   const fetchSettings = useCallback(async () => {
     try {
@@ -230,6 +243,13 @@ export default function SettingsPage() {
 
   return (
     <section className="min-h-screen bg-bg">
+      <ConfirmModal
+        open={confirmOpen}
+        title={confirmTitle}
+        message={confirmMessage}
+        onConfirm={() => { confirmAction(); setConfirmOpen(false); }}
+        onCancel={() => setConfirmOpen(false)}
+      />
       <div className="bg-white border-b border-card sticky top-0 z-30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -352,7 +372,7 @@ export default function SettingsPage() {
                     <div key={idx} className="bg-bg rounded-xl p-4 border border-card">
                       <div className="flex items-center justify-between mb-3">
                         <span className="text-xs font-bold text-primary font-label">Timeline Event {idx + 1}</span>
-                        <button onClick={() => removeTimelineNode(idx)} className="text-red-400 hover:text-red-600 p-1"><Trash2 size={14} /></button>
+                        <button onClick={() => requestConfirm('Remove Timeline Event', 'Are you sure you want to remove this timeline event?', () => removeTimelineNode(idx))} className="text-red-400 hover:text-red-600 p-1"><Trash2 size={14} /></button>
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <div>
@@ -383,7 +403,7 @@ export default function SettingsPage() {
                   {(settings.about?.certifications || []).map((c, idx) => (
                     <div key={idx} className="flex items-center gap-3">
                       <input className={input} value={c} onChange={(e) => updateCertification(idx, e.target.value)} placeholder="e.g. American Dental Association (ADA)" />
-                      <button onClick={() => removeCertification(idx)} className="text-red-400 hover:text-red-600 p-1 shrink-0"><Trash2 size={16} /></button>
+                      <button onClick={() => requestConfirm('Remove Certification', 'Are you sure you want to remove this certification?', () => removeCertification(idx))} className="text-red-400 hover:text-red-600 p-1 shrink-0"><Trash2 size={16} /></button>
                     </div>
                   ))}
                   <button onClick={addCertification} className="flex items-center gap-1.5 text-primary text-xs font-semibold hover:text-primary-dark transition-colors font-label px-3 py-1.5 border border-dashed border-gray-200 rounded-lg w-full justify-center">
@@ -403,7 +423,7 @@ export default function SettingsPage() {
                 <div key={doc.id} className="bg-white rounded-2xl p-6 shadow-sm">
                   <div className="flex items-center justify-between mb-4">
                     <h4 className="font-bold text-dark font-heading">Doctor {i + 1}</h4>
-                    <button onClick={() => removeDoctor(doc.id)} className="text-red-400 hover:text-red-600 p-1"><Trash2 size={16} /></button>
+                    <button onClick={() => requestConfirm('Remove Doctor', 'Are you sure you want to remove this doctor?', () => removeDoctor(doc.id))} className="text-red-400 hover:text-red-600 p-1"><Trash2 size={16} /></button>
                   </div>
                   <div className="flex flex-col md:flex-row gap-6">
                     <div className="shrink-0 flex flex-col items-center">
@@ -451,7 +471,7 @@ export default function SettingsPage() {
                 <div key={svc.id} className="bg-white rounded-2xl p-6 shadow-sm">
                   <div className="flex items-center justify-between mb-4">
                     <h4 className="font-bold text-dark font-heading">Service {i + 1}</h4>
-                    <button onClick={() => removeService(svc.id)} className="text-red-400 hover:text-red-600 p-1"><Trash2 size={16} /></button>
+                    <button onClick={() => requestConfirm('Remove Service', 'Are you sure you want to remove this service?', () => removeService(svc.id))} className="text-red-400 hover:text-red-600 p-1"><Trash2 size={16} /></button>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div><label className={label}>Name</label><input className={input} value={svc.name} onChange={(e) => updateService(svc.id, 'name', e.target.value)} /></div>
@@ -531,9 +551,9 @@ export default function SettingsPage() {
                         </div>
                       </div>
                     </div>
-                    <button onClick={() => {
+                    <button onClick={() => requestConfirm('Remove Testimonial', 'Are you sure you want to remove this testimonial?', () => {
                       setSettings(prev => ({ ...prev, testimonials: prev.testimonials.filter(t => t.id !== test.id) }));
-                    }} className="p-1.5 text-dark/30 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors">
+                    })} className="p-1.5 text-dark/30 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors">
                       <Trash2 size={14} />
                     </button>
                   </div>
@@ -612,17 +632,60 @@ export default function SettingsPage() {
 
           {/* Contact Tab */}
           {activeTab === 'contact' && (
-            <motion.div key="contact" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="bg-white rounded-2xl p-6 shadow-sm space-y-5">
-              <h3 className="font-bold text-dark font-heading">Contact Information</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div><label className={label}>Phone Number</label><input className={input} value={settings.contact.phone} onChange={(e) => update('contact.phone', e.target.value)} /></div>
-                <div><label className={label}>Email</label><input className={input} value={settings.contact.email} onChange={(e) => update('contact.email', e.target.value)} /></div>
+            <motion.div key="contact" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-4">
+              <div className="bg-white rounded-2xl p-6 shadow-sm space-y-5">
+                <h3 className="font-bold text-dark font-heading">Contact Information</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div><label className={label}>Phone Number</label><input className={input} value={settings.contact.phone} onChange={(e) => update('contact.phone', e.target.value)} /></div>
+                  <div><label className={label}>Email</label><input className={input} value={settings.contact.email} onChange={(e) => update('contact.email', e.target.value)} /></div>
+                </div>
+                <div><label className={label}>Address</label><textarea className={`${input} resize-none`} rows={2} value={settings.contact.address} onChange={(e) => update('contact.address', e.target.value)} /></div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div><label className={label}>Weekday Hours</label><input className={input} value={settings.contact.hours.weekday} onChange={(e) => update('contact.hours.weekday', e.target.value)} /></div>
+                  <div><label className={label}>Saturday Hours</label><input className={input} value={settings.contact.hours.saturday} onChange={(e) => update('contact.hours.saturday', e.target.value)} /></div>
+                  <div><label className={label}>Sunday Hours</label><input className={input} value={settings.contact.hours.sunday} onChange={(e) => update('contact.hours.sunday', e.target.value)} /></div>
+                </div>
               </div>
-              <div><label className={label}>Address</label><textarea className={`${input} resize-none`} rows={2} value={settings.contact.address} onChange={(e) => update('contact.address', e.target.value)} /></div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div><label className={label}>Weekday Hours</label><input className={input} value={settings.contact.hours.weekday} onChange={(e) => update('contact.hours.weekday', e.target.value)} /></div>
-                <div><label className={label}>Saturday Hours</label><input className={input} value={settings.contact.hours.saturday} onChange={(e) => update('contact.hours.saturday', e.target.value)} /></div>
-                <div><label className={label}>Sunday Hours</label><input className={input} value={settings.contact.hours.sunday} onChange={(e) => update('contact.hours.sunday', e.target.value)} /></div>
+
+              <div className="bg-white rounded-2xl p-6 shadow-sm space-y-4">
+                <div>
+                  <h3 className="font-bold text-dark font-heading">Admin Notification Emails</h3>
+                  <p className="text-dark/40 text-xs font-label mt-1">When a patient books an appointment, all listed admins will receive an email notification.</p>
+                </div>
+                <div className="space-y-2">
+                  {(settings.adminEmails || []).map((email, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <input
+                        className={`${input} flex-1`}
+                        value={email}
+                        onChange={(e) => {
+                          const newEmails = [...(settings.adminEmails || [])];
+                          newEmails[i] = e.target.value;
+                          setSettings(prev => ({ ...prev, adminEmails: newEmails }));
+                        }}
+                        placeholder="admin@example.com"
+                      />
+                      <button
+                        onClick={() => requestConfirm('Remove Admin Email', 'Are you sure you want to remove this admin email?', () => {
+                          const newEmails = (settings.adminEmails || []).filter((_, idx) => idx !== i);
+                          setSettings(prev => ({ ...prev, adminEmails: newEmails }));
+                        })}
+                        className="text-red-400 hover:text-red-600 p-2 shrink-0"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+                <button
+                  onClick={() => {
+                    const newEmails = [...(settings.adminEmails || []), ''];
+                    setSettings(prev => ({ ...prev, adminEmails: newEmails }));
+                  }}
+                  className="flex items-center gap-2 text-primary text-sm font-semibold hover:text-primary-dark transition-colors font-label"
+                >
+                  <Plus size={14} /> Add Admin Email
+                </button>
               </div>
             </motion.div>
           )}
@@ -673,9 +736,9 @@ export default function SettingsPage() {
                       }}
                       placeholder="Category name"
                     />
-                    <button onClick={() => {
+                    <button onClick={() => requestConfirm('Remove FAQ Category', 'This will remove the category and all its questions. Continue?', () => {
                       setSettings(prev => ({ ...prev, faqCategories: prev.faqCategories.filter((_, i) => i !== ci) }));
-                    }} className="p-1.5 text-dark/30 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors">
+                    })} className="p-1.5 text-dark/30 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors">
                       <Trash2 size={14} />
                     </button>
                   </div>
@@ -706,11 +769,11 @@ export default function SettingsPage() {
                               placeholder="Answer"
                             />
                           </div>
-                          <button onClick={() => {
+                          <button onClick={() => requestConfirm('Remove Question', 'Are you sure you want to remove this question?', () => {
                             const updated = [...settings.faqCategories];
                             updated[ci] = { ...updated[ci], questions: updated[ci].questions.filter((_, j) => j !== qi) };
                             setSettings(prev => ({ ...prev, faqCategories: updated }));
-                          }} className="p-1.5 text-dark/30 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors shrink-0 mt-1">
+                          })} className="p-1.5 text-dark/30 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors shrink-0 mt-1">
                             <Trash2 size={12} />
                           </button>
                         </div>

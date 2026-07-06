@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import EmergencyBanner from "@/components/EmergencyBanner";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import ThemeProvider from "@/components/ThemeProvider";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -24,6 +25,17 @@ export const metadata: Metadata = {
     "Professional dental clinic offering general dentistry, teeth whitening, orthodontics, dental implants, root canal, and pediatric dentistry.",
 };
 
+const themeScript = `
+  (function() {
+    try {
+      var theme = localStorage.getItem('theme');
+      if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      }
+    } catch(e) {}
+  })();
+`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -33,13 +45,19 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${nunito.variable} ${dmSans.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className="min-h-full flex flex-col">
-        <EmergencyBanner />
-        <Navbar />
-        <main className="flex-1 pt-0">{children}</main>
-        <Footer />
-        <WhatsAppButton />
+        <ThemeProvider>
+          <EmergencyBanner />
+          <Navbar />
+          <main className="flex-1 pt-0">{children}</main>
+          <Footer />
+          <WhatsAppButton />
+        </ThemeProvider>
       </body>
     </html>
   );

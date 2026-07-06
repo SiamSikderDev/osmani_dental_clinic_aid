@@ -56,7 +56,7 @@ export default function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative min-h-screen flex items-center bg-gradient-to-br from-bg via-white to-primary/10 overflow-hidden">
+      <section className="relative min-h-screen flex items-center bg-gradient-to-br from-bg via-surface to-primary/10 overflow-hidden transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 lg:py-0 w-full">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div
@@ -95,7 +95,7 @@ export default function HomePage() {
                 ))}
               </motion.h1>
 
-              <p className="text-lg text-dark/60 mb-8 max-w-lg leading-relaxed">
+              <p className="text-lg text-muted mb-8 max-w-lg leading-relaxed">
                 {settings.hero.subtitle}
               </p>
 
@@ -132,13 +132,13 @@ export default function HomePage() {
                   preload
                 />
               </div>
-              <div className="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-lg p-4 flex items-center gap-3">
+              <div className="absolute -bottom-6 -left-6 bg-surface rounded-2xl shadow-lg p-4 flex items-center gap-3 transition-colors">
                 <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center">
                   <Smile className="text-accent" size={24} />
                 </div>
                 <div>
                   <p className="text-sm font-bold text-dark font-label">100% Satisfaction</p>
-                  <p className="text-xs text-dark/50 font-label">Trusted by 2000+ patients</p>
+                  <p className="text-xs text-muted font-label">Trusted by 2000+ patients</p>
                 </div>
               </div>
             </motion.div>
@@ -147,7 +147,7 @@ export default function HomePage() {
       </section>
 
       {/* Stats Bar */}
-      <section className="bg-dark py-16">
+      <section className="bg-stats py-16 transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {stats.map((stat, i) => (
@@ -165,7 +165,7 @@ export default function HomePage() {
       </section>
 
       {/* Services Preview */}
-      <section className="py-24 bg-bg">
+      <section className="py-24 bg-bg transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <div className="text-center mb-16">
@@ -175,7 +175,7 @@ export default function HomePage() {
               <h2 className="text-3xl sm:text-4xl font-bold text-dark mt-3 mb-4">
                 Comprehensive Dental Care
               </h2>
-              <p className="text-dark/60 max-w-2xl mx-auto">
+              <p className="text-muted max-w-2xl mx-auto">
                 From routine check-ups to advanced procedures, we offer a full
                 range of dental services to keep your smile healthy and beautiful.
               </p>
@@ -190,7 +190,7 @@ export default function HomePage() {
                   <motion.div
                     whileHover={{ y: -8 }}
                     transition={{ duration: 0.3 }}
-                    className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-shadow border border-card h-full"
+                    className="bg-surface rounded-2xl p-8 shadow-sm hover:shadow-xl transition-shadow border border-border h-full"
                   >
                     <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-5">
                       <Icon className="text-primary" size={28} />
@@ -198,7 +198,7 @@ export default function HomePage() {
                     <h3 className="text-xl font-bold text-dark mb-3 font-heading">
                       {service.name}
                     </h3>
-                    <p className="text-dark/60 text-sm leading-relaxed mb-4">
+                    <p className="text-muted text-sm leading-relaxed mb-4">
                       {service.shortDesc}
                     </p>
                     <Link
@@ -216,7 +216,7 @@ export default function HomePage() {
       </section>
 
       {/* Why Choose Us */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-surface transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <ScrollReveal>
@@ -260,7 +260,7 @@ export default function HomePage() {
       </section>
 
       {/* Doctors */}
-      <section className="py-24 bg-bg">
+      <section className="py-24 bg-bg transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <div className="text-center mb-16">
@@ -270,7 +270,7 @@ export default function HomePage() {
               <h2 className="text-3xl sm:text-4xl font-bold text-dark mt-3 mb-4">
                 Meet Our Specialists
               </h2>
-              <p className="text-dark/60 max-w-2xl mx-auto">
+              <p className="text-muted max-w-2xl mx-auto">
                 Our team of experienced dental professionals is committed to
                 providing you with the highest quality care.
               </p>
@@ -283,7 +283,7 @@ export default function HomePage() {
                 <motion.div
                   whileHover={{ y: -8 }}
                   transition={{ duration: 0.3 }}
-                  className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow"
+                  className="bg-surface rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow"
                 >
                   <div className="relative h-64">
                     <Image
@@ -303,7 +303,7 @@ export default function HomePage() {
                     <p className="text-primary text-sm font-medium font-label">
                       {doctor.specialization}
                     </p>
-                    <p className="text-dark/60 text-sm mt-3 leading-relaxed">
+                    <p className="text-muted text-sm mt-3 leading-relaxed">
                       {doctor.bio}
                     </p>
                   </div>
@@ -315,7 +315,7 @@ export default function HomePage() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-24 bg-white overflow-hidden">
+      <section className="py-24 bg-surface overflow-hidden transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <div className="text-center mb-16">
@@ -325,7 +325,7 @@ export default function HomePage() {
               <h2 className="text-3xl sm:text-4xl font-bold text-dark mt-3 mb-4">
                 What Our Patients Say
               </h2>
-              <p className="text-dark/50 max-w-xl mx-auto text-sm font-label">
+              <p className="text-muted max-w-xl mx-auto text-sm font-label">
                 Real stories from real patients.{' '}
                 <Link href="/feedback" className="text-primary font-semibold hover:underline">
                   Share your experience
@@ -347,7 +347,7 @@ export default function HomePage() {
                     transition={{ duration: 0.45, ease: [0.4, 0, 0.2, 1] }}
                     className="absolute inset-0"
                   >
-                    <div className="bg-card rounded-3xl p-8 sm:p-10 h-full flex flex-col justify-between relative">
+                    <div className="bg-card rounded-3xl p-8 sm:p-10 h-full flex flex-col justify-between relative transition-colors">
                       <Quote className="absolute top-6 right-8 text-primary/10" size={48} />
                       <div>
                         <div className="flex gap-1 mb-4">
@@ -355,7 +355,7 @@ export default function HomePage() {
                             <Star key={j} size={16} className="fill-yellow-400 text-yellow-400" />
                           ))}
                         </div>
-                        <p className="text-dark/70 leading-relaxed italic text-lg">
+                        <p className="text-muted leading-relaxed italic text-lg">
                           &ldquo;{testimonials[currentSlide].text}&rdquo;
                         </p>
                       </div>
@@ -370,7 +370,7 @@ export default function HomePage() {
                         </div>
                         <div>
                           <p className="font-semibold text-dark text-sm font-label">{testimonials[currentSlide].name}</p>
-                          <p className="text-dark/40 text-xs font-label">Verified Patient</p>
+                          <p className="text-muted text-xs font-label">Verified Patient</p>
                         </div>
                       </div>
                     </div>
@@ -382,7 +382,7 @@ export default function HomePage() {
               <div className="flex items-center justify-center gap-4 mt-8">
                 <button
                   onClick={prevSlide}
-                  className="w-10 h-10 rounded-full border border-dark/20 flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-colors"
+                  className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-colors"
                 >
                   <ChevronLeft size={18} />
                 </button>
@@ -392,21 +392,21 @@ export default function HomePage() {
                       key={i}
                       onClick={() => { setDirection(i > currentSlide ? 1 : -1); setCurrentSlide(i); }}
                       className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                        i === currentSlide ? 'bg-primary w-6' : 'bg-dark/20 hover:bg-dark/40'
+                        i === currentSlide ? 'bg-primary w-6' : 'bg-border hover:bg-dark/40'
                       }`}
                     />
                   ))}
                 </div>
                 <button
                   onClick={nextSlide}
-                  className="w-10 h-10 rounded-full border border-dark/20 flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-colors"
+                  className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-colors"
                 >
                   <ChevronRight size={18} />
                 </button>
               </div>
             </div>
           ) : (
-            <p className="text-center text-dark/40 font-label">No testimonials yet.</p>
+            <p className="text-center text-muted font-label">No testimonials yet.</p>
           )}
         </div>
       </section>

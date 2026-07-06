@@ -3,9 +3,13 @@
 @theme inline {
   --color-primary: #7B4F2A;
   --color-accent: #5B3516;
-  --color-bg: #F3ECE3;
-  --color-dark: #3B2210;
-  --color-card: #EDE5D9;
+  --color-bg: var(--t-bg);
+  --color-dark: var(--t-text);
+  --color-card: var(--t-card);
+  --color-surface: var(--t-surface);
+  --color-muted: var(--t-muted);
+  --color-border: var(--t-border);
+  --color-stats: var(--t-stats);
   --color-primary-dark: #633D1F;
   --color-accent-dark: #4A2A10;
   --color-red-600: #DC2626;
@@ -15,14 +19,35 @@
   --font-label: var(--font-body);
 }
 
+:root {
+  --t-bg: #F3ECE3;
+  --t-text: #3B2210;
+  --t-card: #EDE5D9;
+  --t-surface: #FFFFFF;
+  --t-muted: rgba(59, 34, 16, 0.5);
+  --t-border: #E2E8F0;
+  --t-stats: #3B2210;
+}
+
+html.dark {
+  --t-bg: #1A1410;
+  --t-text: #E8DED2;
+  --t-card: #261E16;
+  --t-surface: #2E231A;
+  --t-muted: rgba(232, 222, 210, 0.5);
+  --t-border: #3D3028;
+  --t-stats: #1A1410;
+}
+
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  background: var(--color-bg);
-  color: var(--color-dark);
+  background: var(--t-bg);
+  color: var(--t-text);
   font-family: var(--font-body);
+  transition: background-color 0.3s, color 0.3s;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -41,12 +66,14 @@ h1, h2, h3, h4, h5, h6 {
 .react-datepicker__input-container input {
   width: 100%;
   padding: 0.625rem 0.875rem;
-  border: 1px solid #CBD5E1;
+  border: 1px solid var(--t-border);
   border-radius: 0.5rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
   outline: none;
   transition: border-color 0.15s, box-shadow 0.15s;
+  background: var(--t-surface);
+  color: var(--t-text);
 }
 
 .react-datepicker__input-container input:focus {
@@ -56,9 +83,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .react-datepicker {
   font-family: var(--font-body), system-ui, sans-serif;
-  border: 1px solid #E2E8F0;
+  border: 1px solid var(--t-border);
   border-radius: 0.75rem;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  background: var(--t-surface);
 }
 
 .react-datepicker__header {

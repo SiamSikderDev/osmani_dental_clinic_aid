@@ -1,4 +1,4 @@
-import { saveAppointment } from '@/lib/db';
+import { saveAppointment, getSettings } from '@/lib/db';
 import { sendBookingReceivedToClinic } from '@/lib/emails';
 import crypto from 'crypto';
 
@@ -32,8 +32,9 @@ export async function POST(request: Request) {
       createdAt: new Date().toISOString(),
     });
 
-    // Notify clinic — no email to patient yet
+    // Notify admin(s) — no email to patient yet
     if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+      const settings = await getSettings();
       await sendBookingReceivedToClinic({
         name,
         email,
@@ -42,7 +43,7 @@ export async function POST(request: Request) {
         doctor: doctor || '',
         date: formattedDate,
         time,
-      });
+      }, settings.adminEmails || []);
     }
 
     return Response.json({ success: true });
