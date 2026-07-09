@@ -51,6 +51,7 @@ export default function SettingsPage() {
   const [confirmTitle, setConfirmTitle] = useState('');
   const [confirmMessage, setConfirmMessage] = useState('');
   const [confirmAction, setConfirmAction] = useState<() => void>(() => {});
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   const requestConfirm = (title: string, message: string, action: () => void) => {
     setConfirmTitle(title);
@@ -76,6 +77,7 @@ export default function SettingsPage() {
   const save = async () => {
     setSaving(true);
     setSaved(false);
+    setSaveError(null);
     try {
       const res = await fetch('/api/settings', {
         method: 'PUT',
@@ -85,9 +87,12 @@ export default function SettingsPage() {
       if (res.ok) {
         setSaved(true);
         setTimeout(() => setSaved(false), 2000);
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setSaveError(data.error || 'Failed to save settings. Check your database connection.');
       }
     } catch {
-      console.error('Failed to save');
+      setSaveError('Network error. Settings were not saved.');
     } finally {
       setSaving(false);
     }
@@ -216,10 +221,16 @@ export default function SettingsPage() {
       const fd = new FormData();
       fd.append('file', file);
       const res = await fetch('/api/upload', { method: 'POST', body: fd });
+      if (!res.ok) throw new Error('Upload failed');
       const data = await res.json();
-      if (data.url) update(targetPath, data.url);
-    } catch {
-      console.error('Upload failed');
+      if (data.url) {
+        update(targetPath, data.url);
+      } else {
+        throw new Error('No URL returned');
+      }
+    } catch (err) {
+      console.error('Image upload failed:', err);
+      alert('Image upload failed. Please try again.');
     } finally {
       setUploading(null);
     }
@@ -268,6 +279,9 @@ export default function SettingsPage() {
               <LayoutDashboard size={14} /> Dashboard
             </a>
             <span className="text-dark/20">|</span>
+            {saveError && (
+              <span className="text-red-500 text-xs font-label max-w-[200px] truncate" title={saveError}>{saveError}</span>
+            )}
             <button
               onClick={save}
               disabled={saving}
@@ -428,7 +442,7 @@ export default function SettingsPage() {
                   <div className="flex flex-col md:flex-row gap-6">
                     <div className="shrink-0 flex flex-col items-center">
                       <div className="w-32 h-32 rounded-xl overflow-hidden bg-card border border-card mb-3">
-                        {doc.image && <img src={doc.image} alt={doc.name || `Doctor ${i + 1}`} className="w-full h-full object-cover" />}
+                        {doc.image && <img src={doc.image} alt={doc.name || `Doctor ${i + 1}`} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />}
                       </div>
                       <label className={`inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-lg text-xs font-semibold cursor-pointer hover:bg-primary/20 transition-colors font-label w-full justify-center ${uploading === uploadKey ? 'opacity-50 pointer-events-none' : ''}`}>
                         {uploading === uploadKey ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
@@ -441,9 +455,20 @@ export default function SettingsPage() {
                             const fd = new FormData();
                             fd.append('file', file);
                             const res = await fetch('/api/upload', { method: 'POST', body: fd });
+                            if (!res.ok) throw new Error('Upload failed');
                             const data = await res.json();
-                            if (data.url) updateDoctor(doc.id, 'image', data.url);
-                          } catch { console.error('Upload failed'); } finally { setUploading(null); }
+                            if (data.url) {
+                              updateDoctor(doc.id, 'image', data.url);
+                            } else {
+                              throw new Error('No URL returned');
+                            }
+                          } catch (err) {
+                            console.error('Doctor image upload failed:', err);
+                            alert('Image upload failed. Please try again.');
+                          } finally {
+                            setUploading(null);
+                            e.target.value = '';
+                          }
                         }} />
                       </label>
                       <input className={`${input} mt-2 text-xs`} value={doc.image} onChange={(e) => updateDoctor(doc.id, 'image', e.target.value)} placeholder="/images/..." />
@@ -600,14 +625,23 @@ export default function SettingsPage() {
                               fd.append('file', file);
                               setUploading(`testimonials.${i}.image`);
                               fetch('/api/upload', { method: 'POST', body: fd })
-                                .then(r => r.json())
+                                .then(r => {
+                                  if (!r.ok) throw new Error('Upload failed');
+                                  return r.json();
+                                })
                                 .then(data => {
                                   if (data.url) {
                                     setSettings(prev => ({ ...prev, testimonials: prev.testimonials.map(t => t.id === test.id ? { ...t, image: data.url } : t) }));
                                   }
                                 })
-                                .catch(() => {})
-                                .finally(() => setUploading(null));
+                                .catch((err) => {
+                                  console.error('Testimonial image upload failed:', err);
+                                  alert('Image upload failed. Please try again.');
+                                })
+                                .finally(() => {
+                                  setUploading(null);
+                                  e.target.value = '';
+                                });
                             }
                           }} />
                         </label>
