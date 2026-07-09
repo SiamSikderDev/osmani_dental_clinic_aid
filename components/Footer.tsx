@@ -17,11 +17,12 @@ export default function Footer() {
           <div>
             <div className="mb-6">
               <Image
-                src="/images/Family Dentistry Logo.jpeg"
-                alt="Family Dentistry"
+                src="/images/logo.jpeg"
+                alt="Osmani Dental Clinic Aid"
                 width={180}
                 height={50}
                 className="h-12 w-auto object-contain"
+                sizes="180px"
               />
             </div>
             <p className="text-white/60 text-sm leading-relaxed mb-6">
@@ -120,7 +121,7 @@ export default function Footer() {
       <div className="border-t border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <p className="text-center text-white/40 text-sm font-label">
-            © {new Date().getFullYear()} Family Dentistry. All rights reserved.
+            © {new Date().getFullYear()} Osmani Dental Clinic Aid. All rights reserved.
           </p>
         </div>
       </div>

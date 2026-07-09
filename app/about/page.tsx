@@ -42,10 +42,11 @@ export default function AboutPage() {
               <div className="relative rounded-3xl overflow-hidden">
                 <Image
                   src={settings.images.clinicInterior}
-                  alt="Family Dentistry clinic"
+                  alt="Osmani Dental Clinic Aid"
                   width={600}
                   height={450}
                   className="object-cover w-full h-[450px]"
+                  sizes="(max-width: 768px) 100vw, 600px"
                 />
               </div>
             </ScrollReveal>
@@ -114,6 +115,7 @@ export default function AboutPage() {
                       src={doctor.image}
                       alt={doctor.name}
                       fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
                       className="object-cover"
                     />
                   </div>

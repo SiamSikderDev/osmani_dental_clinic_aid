@@ -182,7 +182,7 @@ export default function FeedbackPage() {
                 <textarea
                   value={text}
                   onChange={(e) => setText(e.target.value)}
-                  placeholder="Tell us about your experience at Family Dentistry..."
+                  placeholder="Tell us about your experience at Osmani Dental Clinic Aid..."
                   rows={4}
                   className="w-full px-4 py-3 rounded-xl border border-border text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all resize-none font-label"
                   required
@@ -197,7 +197,7 @@ export default function FeedbackPage() {
                 <div className="flex items-center gap-4">
                   {imagePreview ? (
                     <div className="w-16 h-16 rounded-xl overflow-hidden relative ring-2 ring-primary/20">
-                      <Image src={imagePreview} alt="Preview" fill className="object-cover" />
+                      <Image src={imagePreview} alt="Preview" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
                     </div>
                   ) : (
                     <div className="w-16 h-16 rounded-xl bg-card border border-dashed border-border flex items-center justify-center">

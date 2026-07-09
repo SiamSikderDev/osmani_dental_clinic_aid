@@ -77,6 +77,7 @@ export default function GalleryPage() {
                       src={img.src}
                       alt={img.category}
                       fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover"
                     />
                   </div>
@@ -144,6 +145,7 @@ export default function GalleryPage() {
                 src={filtered[lightbox].src}
                 alt={filtered[lightbox].category}
                 fill
+                sizes="(max-width: 768px) 100vw, 768px"
                 className="object-contain"
               />
             </motion.div>

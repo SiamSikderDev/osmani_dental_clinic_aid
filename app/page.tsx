@@ -129,6 +129,7 @@ export default function HomePage() {
                   width={600}
                   height={500}
                   className="object-cover w-full h-[500px]"
+                  sizes="(max-width: 768px) 100vw, 600px"
                   preload
                 />
               </div>
@@ -252,6 +253,7 @@ export default function HomePage() {
                   width={600}
                   height={450}
                   className="object-cover w-full h-[450px]"
+                  sizes="(max-width: 768px) 100vw, 600px"
                 />
               </div>
             </ScrollReveal>
@@ -290,6 +292,7 @@ export default function HomePage() {
                       src={doctor.image}
                       alt={doctor.name}
                       fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
                       className="object-cover"
                     />
                     <div className="absolute top-4 right-4 bg-accent text-white px-3 py-1 rounded-full text-xs font-bold font-label">
@@ -365,6 +368,7 @@ export default function HomePage() {
                             src={testimonials[currentSlide].image}
                             alt={testimonials[currentSlide].name}
                             fill
+                            sizes="44px"
                             className="object-cover"
                           />
                         </div>

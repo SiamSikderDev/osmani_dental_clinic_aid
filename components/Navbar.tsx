@@ -59,11 +59,12 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-14">
             <Link href="/" className="flex items-center">
               <Image
-                src="/images/Family Dentistry Logo.jpeg"
-                alt="Family Dentistry"
+                src="/images/logo.jpeg"
+                alt="Osmani Dental Clinic Aid"
                 width={140}
                 height={40}
                 className="h-10 w-auto object-contain"
+                sizes="140px"
                 priority
               />
             </Link>
@@ -123,11 +124,12 @@ export default function Navbar() {
             >
               <div className="flex items-center justify-between px-5 h-14 border-b border-border">
                 <Image
-                  src="/images/Family Dentistry Logo.jpeg"
-                  alt="Family Dentistry"
+                  src="/images/logo.jpeg"
+                  alt="Osmani Dental Clinic Aid"
                   width={120}
                   height={36}
                   className="h-8 w-auto object-contain"
+                  sizes="120px"
                 />
                 <button
                   onClick={() => setIsMobileOpen(false)}

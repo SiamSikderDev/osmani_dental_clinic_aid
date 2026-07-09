@@ -120,7 +120,7 @@ export const defaultSettings: SiteSettings = {
       name: 'Michael Thompson',
       rating: 5,
       image: '/images/patient-review-2.jpeg',
-      text: 'I was terrified of dentists until I found Family Dentistry. Dr. Mitchell made my root canal completely painless. Highly recommend!',
+      text: 'I was terrified of dentists until I found Osmani Dental Clinic Aid. Dr. Mitchell made my root canal completely painless. Highly recommend!',
     },
     {
       id: 'test-3',
@@ -256,15 +256,15 @@ export const defaultSettings: SiteSettings = {
     },
   ],
   about: {
-    heroSubtitle: 'For over 15 years, Family Dentistry has been a trusted name in dental health, combining cutting-edge technology with compassionate care.',
+    heroSubtitle: 'For over 15 years, Osmani Dental Clinic Aid has been a trusted name in dental health, combining cutting-edge technology with compassionate care.',
     storyTitle: 'A Legacy of Exceptional Care',
-    storyParagraph1: 'Family Dentistry was founded in 2009 with a simple mission: to provide world-class dental care in a warm, welcoming environment. What started as a small practice has grown into one of the most trusted dental clinics in the region.',
+    storyParagraph1: 'Osmani Dental Clinic Aid was founded in 2009 with a simple mission: to provide world-class dental care in a warm, welcoming environment. What started as a small practice has grown into one of the most trusted dental clinics in the region.',
     storyParagraph2: 'Our philosophy is built on the belief that everyone deserves a healthy, beautiful smile. We combine the latest technology with gentle, personalized care to ensure every patient leaves our clinic with confidence.',
     mission: 'To provide compassionate, high-quality dental care that empowers our patients to achieve optimal oral health and beautiful smiles.',
     vision: 'To be the leading dental care provider, recognized for clinical excellence, innovative technology, and exceptional patient experience.',
     values: 'Integrity, compassion, excellence, and innovation guide everything we do. We treat every patient like family.',
     timeline: [
-      { year: '2009', title: 'Founded', desc: 'Family Dentistry opened its doors with a vision for patient-first dental care.' },
+      { year: '2009', title: 'Founded', desc: 'Osmani Dental Clinic Aid opened its doors with a vision for patient-first dental care.' },
       { year: '2013', title: 'Expansion', desc: 'Expanded to a state-of-the-art facility with 8 treatment rooms.' },
       { year: '2017', title: 'Technology Upgrade', desc: 'Introduced 3D imaging, laser dentistry, and digital impressions.' },
       { year: '2020', title: 'Award Winning', desc: 'Named "Best Dental Clinic" by the City Health Awards.' },
