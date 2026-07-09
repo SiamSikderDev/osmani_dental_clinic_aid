@@ -1,7 +1,3 @@
-import { writeFile, mkdir } from 'fs/promises';
-import { join } from 'path';
-import crypto from 'crypto';
-
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
@@ -14,15 +10,12 @@ export async function POST(request: Request) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    const ext = file.name.split('.').pop() || 'jpg';
-    const filename = `${crypto.randomUUID()}.${ext}`;
-    const uploadDir = join(process.cwd(), 'public', 'uploads');
-    const filepath = join(uploadDir, filename);
+    const ext = file.name.split('.').pop() || 'jpeg';
+    const mime = file.type || `image/${ext === 'jpg' ? 'jpeg' : ext}`;
+    const base64 = buffer.toString('base64');
+    const dataUrl = `data:${mime};base64,${base64}`;
 
-    await mkdir(uploadDir, { recursive: true });
-    await writeFile(filepath, buffer);
-
-    return Response.json({ url: `/uploads/${filename}` });
+    return Response.json({ url: dataUrl });
   } catch (error) {
     console.error('Upload error:', error);
     return Response.json({ error: 'Upload failed' }, { status: 500 });
