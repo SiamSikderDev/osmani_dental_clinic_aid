@@ -7,6 +7,7 @@ import {
   RefreshCw, Search, Filter, LogOut, Settings, ChevronDown, Home,
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import AdminTopbar from '@/components/AdminTopbar';
 
 interface Appointment {
   id: string;
@@ -109,38 +110,10 @@ export default function AdminPage() {
 
   return (
     <section className="min-h-screen bg-bg">
-      <div className="bg-surface border-b border-card sticky top-0 z-30 transition-colors">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-          <div>
-            <h1 className="text-xl font-bold text-dark font-heading">
-              Osmani Dental Clinic Aid Admin
-            </h1>
-            <p className="text-dark/50 text-xs font-label">Appointment Dashboard</p>
-          </div>
-          <div className="flex items-center gap-3">
-            <a
-              href="/"
-              className="flex items-center gap-1.5 text-dark/50 hover:text-primary text-sm transition-colors font-label"
-            >
-              <Home size={14} /> Home
-            </a>
-            <span className="text-dark/20">|</span>
-            <a
-              href="/admin/settings"
-              className="flex items-center gap-1.5 text-dark/50 hover:text-primary text-sm transition-colors font-label"
-            >
-              <Settings size={14} /> Settings
-            </a>
-            <span className="text-dark/20">|</span>
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-2 text-dark/50 hover:text-dark text-sm transition-colors font-label"
-            >
-              <LogOut size={16} /> Lock
-            </button>
-          </div>
-        </div>
-      </div>
+      <AdminTopbar
+        title="Osmani Dental Clinic Aid Admin"
+        subtitle="Appointment Dashboard"
+      />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">

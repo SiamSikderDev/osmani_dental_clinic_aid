@@ -142,7 +142,7 @@ export default function HomePage() {
                   Our Services
                 </Link>
                 <a
-                  href="tel:+355000000000"
+                  href={`tel:${settings.contact.phone.replace(/[^+\d]/g, '')}`}
                   className="inline-flex items-center gap-2.5 bg-primary/10 text-primary px-6 py-3 rounded-full font-semibold hover:bg-primary hover:text-white transition-all font-label text-[15px] border border-primary/20 hover:border-primary hover:shadow-[0_8px_30px_rgba(92,184,138,0.3)]"
                 >
                   <Phone size={17} />
@@ -401,7 +401,7 @@ export default function HomePage() {
 
           {testimonials.length > 0 ? (
             <div className="relative max-w-3xl mx-auto">
-              <div className="relative h-[320px] sm:h-[280px]">
+              <div className="relative min-h-[320px] sm:min-h-[280px]">
                 <AnimatePresence mode="wait" custom={direction}>
                   <motion.div
                     key={currentSlide}
@@ -412,22 +412,22 @@ export default function HomePage() {
                     transition={{ duration: 0.45, ease: [0.4, 0, 0.2, 1] }}
                     className="absolute inset-0"
                   >
-                    <div className="bg-card rounded-3xl p-8 sm:p-10 h-full flex flex-col justify-between relative transition-colors">
-                      <Quote className="absolute top-6 right-8 text-primary/10" size={48} />
+                    <div className="bg-card rounded-3xl p-6 sm:p-8 md:p-10 h-full flex flex-col justify-between relative transition-colors">
+                      <Quote className="absolute top-4 right-4 sm:top-6 sm:right-8 text-primary/10" size={40} />
                       <div>
-                        <div className="flex gap-1 mb-4">
+                        <div className="flex gap-1 mb-3 sm:mb-4">
                           {Array.from({ length: testimonials[currentSlide].rating }).map((_, j) => (
-                            <Star key={j} size={16} className="fill-yellow-400 text-yellow-400" />
+                            <Star key={j} size={14} className="fill-yellow-400 text-yellow-400 sm:w-4 sm:h-4" />
                           ))}
                         </div>
-                        <p className="text-muted leading-relaxed italic text-lg">
+                        <p className="text-muted leading-relaxed italic text-sm sm:text-base md:text-lg">
                           &ldquo;{testimonials[currentSlide].text.length > 200
                             ? testimonials[currentSlide].text.slice(0, 200) + '...'
                             : testimonials[currentSlide].text}&rdquo;
                         </p>
                       </div>
-                      <div className="flex items-center gap-3 mt-6">
-                        <div className="w-11 h-11 rounded-full overflow-hidden relative ring-2 ring-primary/20">
+                      <div className="flex items-center gap-3 mt-4 sm:mt-6">
+                        <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden relative ring-2 ring-primary/20 shrink-0">
                           <Image
                             src={testimonials[currentSlide].image}
                             alt={testimonials[currentSlide].name}
@@ -437,8 +437,8 @@ export default function HomePage() {
                           />
                         </div>
                         <div>
-                          <p className="font-semibold text-dark text-sm font-label">{testimonials[currentSlide].name}</p>
-                          <p className="text-muted text-xs font-label">Verified Patient</p>
+                          <p className="font-semibold text-dark text-xs sm:text-sm font-label">{testimonials[currentSlide].name}</p>
+                          <p className="text-muted text-[10px] sm:text-xs font-label">Verified Patient</p>
                         </div>
                       </div>
                     </div>
@@ -447,29 +447,29 @@ export default function HomePage() {
               </div>
 
               {/* Controls */}
-              <div className="flex items-center justify-center gap-4 mt-8">
+              <div className="flex items-center justify-center gap-3 sm:gap-4 mt-6 sm:mt-8">
                 <button
                   onClick={prevSlide}
-                  className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-colors"
+                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-border flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-colors"
                 >
-                  <ChevronLeft size={18} />
+                  <ChevronLeft size={16} />
                 </button>
-                <div className="flex gap-2">
+                <div className="flex gap-1.5 sm:gap-2">
                   {testimonials.map((_: unknown, i: number) => (
                     <button
                       key={i}
                       onClick={() => { setDirection(i > currentSlide ? 1 : -1); setCurrentSlide(i); }}
                       className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                        i === currentSlide ? 'bg-primary w-6' : 'bg-border hover:bg-dark/40'
+                        i === currentSlide ? 'bg-primary w-5 sm:w-6' : 'bg-border hover:bg-dark/40'
                       }`}
                     />
                   ))}
                 </div>
                 <button
                   onClick={nextSlide}
-                  className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-colors"
+                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-border flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-colors"
                 >
-                  <ChevronRight size={18} />
+                  <ChevronRight size={16} />
                 </button>
               </div>
             </div>

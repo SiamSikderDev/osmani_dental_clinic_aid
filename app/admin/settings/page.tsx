@@ -10,6 +10,7 @@ import {
 import { SiteSettings, defaultSettings } from '@/lib/settings';
 import { useRouter } from 'next/navigation';
 import ConfirmModal from '@/components/ConfirmModal';
+import AdminTopbar from '@/components/AdminTopbar';
 
 const iconOptions = [
   { value: 'Stethoscope', label: 'Stethoscope', Icon: Stethoscope },
@@ -262,24 +263,12 @@ export default function SettingsPage() {
         onConfirm={() => { confirmAction(); setConfirmOpen(false); }}
         onCancel={() => setConfirmOpen(false)}
       />
-      <div className="bg-surface border-b border-card sticky top-0 z-30 transition-colors">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <SettingsIcon className="text-primary" size={20} />
-            <div>
-              <h1 className="text-lg font-bold text-dark font-heading">Site Settings</h1>
-              <p className="text-dark/50 text-xs font-label">Manage your website content</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <a href="/" className="flex items-center gap-1.5 text-dark/50 hover:text-primary text-sm transition-colors font-label">
-              <Home size={14} /> Home
-            </a>
-            <span className="text-dark/20">|</span>
-            <a href="/admin" className="flex items-center gap-1.5 text-dark/50 hover:text-primary text-sm transition-colors font-label">
-              <LayoutDashboard size={14} /> Dashboard
-            </a>
-            <span className="text-dark/20">|</span>
+      <AdminTopbar
+        title="Site Settings"
+        subtitle="Manage your website content"
+        icon={<SettingsIcon className="text-primary" size={20} />}
+        rightContent={
+          <>
             {saveError && (
               <span className="text-red-500 text-xs font-label max-w-[200px] truncate" title={saveError}>{saveError}</span>
             )}
@@ -291,16 +280,9 @@ export default function SettingsPage() {
               {saving ? <Loader2 size={14} className="animate-spin" /> : saved ? <CheckCircle size={14} /> : <Save size={14} />}
               {saving ? 'Saving...' : saved ? 'Saved!' : 'Save Changes'}
             </button>
-            <span className="text-dark/20">|</span>
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-1.5 text-dark/50 hover:text-dark text-sm transition-colors font-label"
-            >
-              <LogOut size={14} /> Lock
-            </button>
-          </div>
-        </div>
-      </div>
+          </>
+        }
+      />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Tabs */}

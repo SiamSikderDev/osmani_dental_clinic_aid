@@ -3,8 +3,10 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Phone, X } from 'lucide-react';
+import { useSettings } from '@/lib/useSettings';
 
 export default function EmergencyBanner() {
+  const { settings } = useSettings();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -50,11 +52,11 @@ export default function EmergencyBanner() {
                     Dental Emergency? We&apos;re here to help
                   </p>
                   <a
-                    href="tel:+15551234567"
+                    href={`tel:${settings.contact.phone.replace(/[^+\d]/g, '')}`}
                     className="inline-flex items-center gap-1.5 bg-surface/15 hover:bg-surface/25 backdrop-blur-sm text-white text-xs sm:text-sm font-bold px-3 py-1 rounded-full transition-all hover:scale-[1.03] active:scale-[0.98] font-label"
                   >
                     <Phone size={12} className="fill-white" />
-                    +1 (555) 123-4567
+                    {settings.contact.phone}
                   </a>
                 </div>
 
