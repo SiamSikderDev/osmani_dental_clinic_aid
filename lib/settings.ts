@@ -76,6 +76,11 @@ export interface SiteSettings {
     }[];
     certifications: string[];
   };
+  gallery: {
+    id: string;
+    src: string;
+    category: string;
+  }[];
 }
 
 export const defaultSettings: SiteSettings = {
@@ -276,5 +281,15 @@ export const defaultSettings: SiteSettings = {
       'International Congress of Oral Implantologists',
       'Board Certified Specialists',
     ]
-  }
+  },
+  gallery: [
+    { id: 'g-1', src: '/images/clinic-interior.jpeg', category: 'Clinic Interior' },
+    { id: 'g-2', src: '/images/hero-image.jpeg', category: 'Before & After' },
+    { id: 'g-3', src: '/images/before-after-1.jpeg', category: 'Before & After' },
+    { id: 'g-4', src: '/images/team-photo.jpeg', category: 'Team' },
+    { id: 'g-5', src: '/images/doctor-1.jpeg', category: 'Team' },
+    { id: 'g-6', src: '/images/doctor-2.jpeg', category: 'Team' },
+    { id: 'g-7', src: '/images/doctor-3.jpeg', category: 'Team' },
+    { id: 'g-8', src: '/images/services-hero.jpeg', category: 'Clinic Interior' },
+  ],
 };

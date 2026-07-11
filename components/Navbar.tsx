@@ -57,16 +57,19 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14">
-            <Link href="/" className="flex items-center">
+            <Link href="/" className="flex items-center gap-[2px]">
               <Image
-                src="/images/logo.jpeg"
+                src="/images/logo.png"
                 alt="Osmani Dental Clinic Aid"
                 width={140}
                 height={40}
-                className="h-10 w-auto object-contain"
+                className="h-10 w-auto"
                 sizes="140px"
                 priority
               />
+              <span className="hidden sm:block text-[15px] font-bold text-dark leading-none font-heading">
+                Osmani<br />Dental Clinic
+              </span>
             </Link>
 
             <div className="hidden md:flex items-center gap-7">
@@ -122,15 +125,18 @@ export default function Navbar() {
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
               className="fixed top-0 right-0 bottom-0 z-[70] w-[280px] bg-surface shadow-2xl md:hidden flex flex-col transition-colors"
             >
-              <div className="flex items-center justify-between px-5 h-14 border-b border-border">
+              <div className="flex items-center justify-between gap-2 px-5 h-14 border-b border-border">
                 <Image
-                  src="/images/logo.jpeg"
+                  src="/images/logo.png"
                   alt="Osmani Dental Clinic Aid"
                   width={120}
                   height={36}
-                  className="h-8 w-auto object-contain"
+                  className="h-8 object-contain"
                   sizes="120px"
                 />
+                <span className="text-sm font-bold text-dark leading-none font-heading">
+                  Osmani<br />Dental Clinic
+                </span>
                 <button
                   onClick={() => setIsMobileOpen(false)}
                   className="p-2 -mr-2 text-muted hover:text-dark rounded-lg hover:bg-black/5 transition-colors"

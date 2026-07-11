@@ -6,6 +6,7 @@ import Image from 'next/image';
 import {
   Stethoscope, Sparkles, Smile, Cross, Heart, Baby,
   CheckCircle, ArrowRight, Star, ChevronLeft, ChevronRight, Quote,
+  Phone, Award, Users,
 } from 'lucide-react';
 import { useState, useEffect, useCallback } from 'react';
 import ScrollReveal from '@/components/ScrollReveal';
@@ -56,16 +57,23 @@ export default function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative min-h-screen flex items-center bg-gradient-to-br from-bg via-surface to-primary/10 overflow-hidden transition-colors">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 lg:py-0 w-full">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <section className="relative min-h-screen flex items-center overflow-hidden transition-colors">
+        {/* Background decorations */}
+        <div className="absolute inset-0 bg-gradient-to-br from-bg via-surface to-primary/5 transition-colors" />
+        <div className="absolute top-20 -left-32 w-96 h-96 bg-primary/8 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-0 w-80 h-80 bg-accent/8 rounded-full blur-3xl" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle,_rgba(92,184,138,0.04)_1px,_transparent_1px)] bg-[size:24px_24px]" />
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-32 lg:pt-17 lg:pb-0 w-full">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            {/* Text content */}
             <motion.div
               initial={{ opacity: 0, x: -40 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
               <motion.h1
-                className="text-4xl sm:text-5xl lg:text-6xl font-bold text-dark leading-tight mb-6"
+                className="text-4xl sm:text-5xl lg:text-[3.4rem] font-bold text-dark leading-[1.15] mb-6"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
@@ -79,14 +87,8 @@ export default function HomePage() {
                     className="inline-block mr-[0.3em]"
                   >
                     {i === 4 ? (
-                      <span className="relative inline-block">
+                      <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                         {word}
-                        <motion.span
-                          className="absolute -bottom-1 left-0 h-[3px] bg-accent rounded-full"
-                          initial={{ width: 0 }}
-                          animate={{ width: '100%' }}
-                          transition={{ duration: 0.6, delay: 1.2 }}
-                        />
                       </span>
                     ) : (
                       word
@@ -95,34 +97,71 @@ export default function HomePage() {
                 ))}
               </motion.h1>
 
-              <p className="text-lg text-muted mb-8 max-w-lg leading-relaxed">
+              <p className="text-lg text-muted mb-6 max-w-lg leading-relaxed">
                 {settings.hero.subtitle}
               </p>
 
-              <div className="flex flex-wrap gap-4">
+              {/* Trust bar */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 1 }}
+                className="flex flex-wrap items-center gap-4 mb-8"
+              >
+                <div className="flex items-center gap-1.5">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} size={16} className="fill-yellow-400 text-yellow-400" />
+                  ))}
+                  <span className="text-sm font-bold text-dark ml-1">4.9</span>
+                </div>
+                <div className="w-px h-4 bg-border" />
+                <div className="flex items-center gap-1.5 text-sm text-muted">
+                  <Users size={15} className="text-primary" />
+                  <span><strong className="text-dark font-semibold">2000+</strong> Happy Patients</span>
+                </div>
+                <div className="w-px h-4 bg-border" />
+                <div className="flex items-center gap-1.5 text-sm text-muted">
+                  <Award size={15} className="text-primary" />
+                  <span><strong className="text-dark font-semibold">15+</strong> Years</span>
+                </div>
+              </motion.div>
+
+              {/* CTAs */}
+              <div className="flex flex-wrap items-center gap-4">
                 <Link
                   href="/appointment"
-                  className="bg-accent text-white px-8 py-3.5 rounded-full font-semibold hover:bg-accent-dark transition-colors inline-flex items-center gap-2 font-label"
+                  className="bg-accent text-white px-8 py-3.5 rounded-full font-semibold hover:bg-accent-dark hover:shadow-[0_8px_30px_rgba(232,144,159,0.35)] transition-all inline-flex items-center gap-2 font-label text-[15px]"
                 >
                   {settings.hero.ctaText}
                   <ArrowRight size={18} />
                 </Link>
                 <Link
                   href="/services"
-                  className="border-2 border-primary text-primary px-8 py-3.5 rounded-full font-semibold hover:bg-primary hover:text-white transition-colors font-label"
+                  className="border-2 border-primary text-primary px-8 py-3.5 rounded-full font-semibold hover:bg-primary hover:text-white transition-all font-label text-[15px]"
                 >
                   Our Services
                 </Link>
+                <a
+                  href="tel:+355000000000"
+                  className="inline-flex items-center gap-2.5 bg-primary/10 text-primary px-6 py-3 rounded-full font-semibold hover:bg-primary hover:text-white transition-all font-label text-[15px] border border-primary/20 hover:border-primary hover:shadow-[0_8px_30px_rgba(92,184,138,0.3)]"
+                >
+                  <Phone size={17} />
+                  Call Now
+                </a>
               </div>
             </motion.div>
 
+            {/* Image area */}
             <motion.div
               initial={{ opacity: 0, x: 40 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
               className="relative"
             >
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+              {/* Decorative accent ring */}
+              <div className="absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-primary/20 via-transparent to-accent/20 blur-sm" />
+
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-white/40 dark:border-white/5">
                 <Image
                   src={settings.images.hero}
                   alt="Happy patient with a beautiful smile"
@@ -130,21 +169,45 @@ export default function HomePage() {
                   height={500}
                   className="object-cover w-full h-[500px]"
                   sizes="(max-width: 768px) 100vw, 600px"
-                  preload
+                  priority
                 />
+                {/* Gradient overlay at bottom */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
               </div>
-              <div className="absolute -bottom-6 -left-6 bg-surface rounded-2xl shadow-lg p-4 flex items-center gap-3 transition-colors">
-                <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center">
-                  <Smile className="text-accent" size={24} />
-                </div>
-                <div>
-                  <p className="text-sm font-bold text-dark font-label">100% Satisfaction</p>
-                  <p className="text-xs text-muted font-label">Trusted by 2000+ patients</p>
-                </div>
-              </div>
+
+              {/* Doctor card */}
+              {doctors.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ duration: 0.5, delay: 1.2 }}
+                  className="absolute -bottom-5 -left-5 sm:-left-8 bg-surface/95 backdrop-blur-md rounded-2xl shadow-xl p-4 flex items-center gap-3.5 border border-border/50"
+                >
+                  <div className="relative w-14 h-14 rounded-full overflow-hidden ring-2 ring-primary/30 shrink-0">
+                    <Image
+                      src={doctors[0].image}
+                      alt={doctors[0].name}
+                      fill
+                      sizes="56px"
+                      className="object-cover"
+                    />
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-dark font-label">{doctors[0].name}</p>
+                    <p className="text-xs text-primary font-medium font-label">{doctors[0].specialization}</p>
+                    <div className="flex items-center gap-0.5 mt-1">
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <Star key={i} size={10} className="fill-yellow-400 text-yellow-400" />
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
             </motion.div>
           </div>
         </div>
+
+
       </section>
 
       {/* Stats Bar */}
@@ -250,9 +313,8 @@ export default function HomePage() {
                 <Image
                   src={settings.images.clinicInterior}
                   alt="Modern dental clinic interior"
-                  width={600}
-                  height={450}
-                  className="object-cover w-full h-[450px]"
+                  fill
+                  className="object-cover"
                   sizes="(max-width: 768px) 100vw, 600px"
                 />
               </div>

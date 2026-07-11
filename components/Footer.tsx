@@ -16,14 +16,19 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           <div>
             <div className="mb-6">
-              <Image
-                src="/images/logo.jpeg"
-                alt="Osmani Dental Clinic Aid"
-                width={180}
-                height={50}
-                className="h-12 w-auto object-contain"
-                sizes="180px"
-              />
+              <div className="flex items-center gap-[2px]">
+                <Image
+                  src="/images/logo.png"
+                  alt="Osmani Dental Clinic Aid"
+                  width={180}
+                  height={50}
+                  className="h-12 object-contain"
+                  sizes="180px"
+                />
+                <span className="text-[15px] font-bold text-white leading-none font-heading">
+                  Osmani<br />Dental Clinic
+                </span>
+              </div>
             </div>
             <p className="text-white/60 text-sm leading-relaxed mb-6">
               Your trusted partner in dental health. We provide exceptional care with

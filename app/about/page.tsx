@@ -43,9 +43,8 @@ export default function AboutPage() {
                 <Image
                   src={settings.images.clinicInterior}
                   alt="Osmani Dental Clinic Aid"
-                  width={600}
-                  height={450}
-                  className="object-cover w-full h-[450px]"
+                  fill
+                  className="object-cover"
                   sizes="(max-width: 768px) 100vw, 600px"
                 />
               </div>

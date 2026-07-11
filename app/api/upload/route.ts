@@ -1,3 +1,6 @@
+import { put } from '@vercel/blob';
+import crypto from 'crypto';
+
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
@@ -7,15 +10,14 @@ export async function POST(request: Request) {
       return Response.json({ error: 'No file provided' }, { status: 400 });
     }
 
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
     const ext = file.name.split('.').pop() || 'jpeg';
-    const mime = file.type || `image/${ext === 'jpg' ? 'jpeg' : ext}`;
-    const base64 = buffer.toString('base64');
-    const dataUrl = `data:${mime};base64,${base64}`;
+    const filename = `${crypto.randomUUID()}.${ext}`;
 
-    return Response.json({ url: dataUrl });
+    const blob = await put(filename, file, {
+      access: 'public',
+    });
+
+    return Response.json({ url: blob.url });
   } catch (error) {
     console.error('Upload error:', error);
     return Response.json({ error: 'Upload failed' }, { status: 500 });

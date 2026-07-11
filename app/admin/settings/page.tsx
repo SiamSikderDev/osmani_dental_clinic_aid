@@ -24,6 +24,7 @@ const tabs = [
   { id: 'hero', label: 'Hero', icon: Image },
   { id: 'about', label: 'About', icon: Info },
   { id: 'images', label: 'Images', icon: Upload },
+  { id: 'gallery', label: 'Gallery', icon: Image },
   { id: 'testimonials', label: 'Testimonials', icon: MessageSquare },
   { id: 'doctors', label: 'Doctors', icon: Users },
   { id: 'services', label: 'Services', icon: Stethoscope },
@@ -554,6 +555,88 @@ export default function SettingsPage() {
                   </div>
                 );
               })}
+            </motion.div>
+          )}
+
+          {/* Gallery Tab */}
+          {activeTab === 'gallery' && (
+            <motion.div key="gallery" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-4">
+              <div className="bg-surface rounded-2xl p-6 shadow-sm">
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <h3 className="font-bold text-dark font-heading">Gallery Images</h3>
+                    <p className="text-dark/40 text-xs font-label mt-1">Upload and organize your clinic photos by category</p>
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  {(settings.gallery || []).map((img, i) => (
+                    <div key={img.id} className="bg-bg rounded-xl p-4 border border-card">
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-xs font-bold text-primary font-label">Image {i + 1}</span>
+                        <button onClick={() => requestConfirm('Remove Image', 'Are you sure you want to remove this gallery image?', () => {
+                          setSettings(prev => ({ ...prev, gallery: prev.gallery.filter(g => g.id !== img.id) }));
+                        })} className="text-red-400 hover:text-red-600 p-1"><Trash2 size={14} /></button>
+                      </div>
+                      <div className="flex flex-col md:flex-row gap-4">
+                        <div className="shrink-0 flex flex-col items-center">
+                          <div className="w-40 h-28 rounded-xl overflow-hidden bg-card border border-card mb-2">
+                            {img.src && <img src={img.src} alt={img.category} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />}
+                          </div>
+                          <label className={`inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-lg text-xs font-semibold cursor-pointer hover:bg-primary/20 transition-colors font-label w-full justify-center ${uploading === `gallery-${img.id}` ? 'opacity-50 pointer-events-none' : ''}`}>
+                            {uploading === `gallery-${img.id}` ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
+                            {uploading === `gallery-${img.id}` ? 'Uploading...' : 'Upload Photo'}
+                            <input type="file" accept="image/*" className="hidden" onChange={async (e) => {
+                              const file = e.target.files?.[0];
+                              if (!file) return;
+                              setUploading(`gallery-${img.id}`);
+                              try {
+                                const fd = new FormData();
+                                fd.append('file', file);
+                                const res = await fetch('/api/upload', { method: 'POST', body: fd });
+                                if (!res.ok) throw new Error('Upload failed');
+                                const data = await res.json();
+                                if (data.url) {
+                                  setSettings(prev => ({ ...prev, gallery: prev.gallery.map(g => g.id === img.id ? { ...g, src: data.url } : g) }));
+                                } else {
+                                  throw new Error('No URL returned');
+                                }
+                              } catch (err) {
+                                console.error('Gallery image upload failed:', err);
+                                alert('Image upload failed. Please try again.');
+                              } finally {
+                                setUploading(null);
+                                e.target.value = '';
+                              }
+                            }} />
+                          </label>
+                        </div>
+                        <div className="flex-1 grid grid-cols-1 gap-3">
+                          <div>
+                            <label className={label}>Image URL</label>
+                            <input className={input} value={img.src} onChange={(e) => {
+                              setSettings(prev => ({ ...prev, gallery: prev.gallery.map(g => g.id === img.id ? { ...g, src: e.target.value } : g) }));
+                            }} placeholder="/images/..." />
+                          </div>
+                          <div>
+                            <label className={label}>Category</label>
+                            <input className={input} value={img.category} onChange={(e) => {
+                              setSettings(prev => ({ ...prev, gallery: prev.gallery.map(g => g.id === img.id ? { ...g, category: e.target.value } : g) }));
+                            }} placeholder="e.g. Team, Clinic Interior, Before & After" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  <button onClick={() => {
+                    setSettings(prev => ({
+                      ...prev,
+                      gallery: [...(prev.gallery || []), { id: `g-${Date.now()}`, src: '/images/clinic-interior.jpeg', category: 'Clinic Interior' }],
+                    }));
+                  }} className="flex items-center gap-2 bg-surface border-2 border-dashed border-border rounded-2xl p-4 w-full justify-center text-dark/50 hover:border-primary hover:text-primary transition-colors font-label text-sm">
+                    <Plus size={16} /> Add Gallery Image
+                  </button>
+                </div>
+              </div>
             </motion.div>
           )}
 
