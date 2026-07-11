@@ -421,7 +421,9 @@ export default function HomePage() {
                           ))}
                         </div>
                         <p className="text-muted leading-relaxed italic text-lg">
-                          &ldquo;{testimonials[currentSlide].text}&rdquo;
+                          &ldquo;{testimonials[currentSlide].text.length > 200
+                            ? testimonials[currentSlide].text.slice(0, 200) + '...'
+                            : testimonials[currentSlide].text}&rdquo;
                         </p>
                       </div>
                       <div className="flex items-center gap-3 mt-6">
